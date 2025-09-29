@@ -76,3 +76,52 @@ Mengintegrasikan semua yang telah dipelajari ke dalam sebuah proyek dan ujian ak
     1.  **Cicil Final Project:** Mulai rancang proyek dari jauh-jauh hari dan tentukan struktur data yang paling cocok.
     2.  **Perbanyak Latihan Soal:** Ulangi latihan dari pertemuan-pertemuan sebelumnya untuk persiapan Responsi dan UAS.
     3.  **Review Total:** Buat rangkuman pribadi untuk setiap topik agar lebih mudah mengingat saat ujian.
+
+## contoh penggunaan pointer
+```
+#include <iostream>
+#include <string>
+
+// Langkah 1: Mendefinisikan "cetakan" atau Struct untuk data Mahasiswa.
+// Ini sesuai dengan materi di RPS tentang Struct[cite: 46, 50].
+struct Mahasiswa {
+    int nim;
+    std::string nama;
+    float ipk;
+    float absensi;
+};
+
+int main() {
+    // Langkah 2: Membuat Array of Struct.
+    // Kita membuat array bernama 'kelas' yang bisa menampung 3 data Mahasiswa.
+    Mahasiswa kelas[4] = {
+        {101, "Budi", 3.45, 80},
+        {102, "Citra", 3.80, 90},
+        {103, "Dewi", 3.67, 100},
+        {104, "Azfa", 4, 75},
+    };
+
+    // Langkah 3: Membuat Pointer yang akan menunjuk ke Struct Mahasiswa.
+    // Pointer 'ptrMahasiswa' sekarang menyimpan alamat memori dari elemen pertama array 'kelas',
+    // yaitu data milik Budi (kelas[0]). Ini adalah konsep inti dari Pointer[cite: 46, 50].
+    Mahasiswa *ptrMahasiswa = kelas;
+
+    std::cout << "=== Mengakses Data Mahasiswa Menggunakan Pointer ===" << std::endl;
+
+    // Langkah 4: Menggunakan loop untuk mengakses setiap elemen dalam array via pointer.
+    for (int i = 0; i < 4; i++) {
+        std::cout << "\nData Mahasiswa ke-" << (i + 1) << std::endl;
+        
+        // Untuk mengakses member dari struct melalui pointer, kita gunakan operator '->' (panah).
+        // 'ptrMahasiswa->nama' artinya "ambil data 'nama' dari alamat yang ditunjuk oleh ptrMahasiswa".
+        std::cout << "NIM  : " << ptrMahasiswa->nim << std::endl;
+        std::cout << "Nama : " << ptrMahasiswa->nama << std::endl;
+        std::cout << "IPK  : " << ptrMahasiswa->ipk << std::endl;
+        std::cout << "Absensi  : " << ptrMahasiswa->absensi << std::endl;
+
+        // Pindahkan pointer untuk menunjuk ke elemen berikutnya di dalam array.
+        ptrMahasiswa++;
+    }
+
+    return 0;
+}
