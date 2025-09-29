@@ -1,9 +1,3 @@
-# Ringkasan Lengkap Video: Pengenalan Sistem Operasi Linux (Versi Diperkaya)
-
-Video ini memberikan pengenalan komprehensif mengenai sistem operasi Linux, mulai dari konsep dasar, sejarah, jenis-jenisnya, hingga panduan praktis bagi pemula untuk memulai, lengkap dengan demonstrasi.
-
----
-
 ## 1. Apa itu Linux?
 
 -   **Definisi:** Linux adalah sistem operasi berbasis UNIX yang bersifat **open source**. Artinya, kode sumbernya dapat dilihat, dimodifikasi, dan didistribusikan secara bebas oleh siapa saja.
