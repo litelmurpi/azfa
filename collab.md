@@ -17,7 +17,7 @@ Langkah-langkah ini hanya perlu dilakukan **satu kali** di awal.
 
 1.  Buka halaman utama repositori di GitHub.
 2.  Klik tombol hijau **`< > Code`**.
-3.  Salin URL HTTPS yang tersedia (contoh: `https://github.com/nama-organisasi/nama-proyek.git`).
+3.  Salin URL HTTPS yang tersedia (`https://github.com/litelmurpi/tanami.git`).
 4.  Buka Android Studio.
 5.  Di jendela selamat datang, pilih **"Get from VCS"** (atau jika proyek lain terbuka, pilih `File > New > Project from Version Control`).
 6.  Tempelkan URL yang sudah disalin ke kolom **URL**, pilih lokasi penyimpanan di komputer Anda, lalu klik **"Clone"**.
