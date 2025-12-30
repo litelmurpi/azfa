@@ -1,11 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# sebelum ada improvement, aku ingin kamu jelaskan programnya dengan detail dari alur sampai logika per code nya di markdown file
-
-Berikut penjelasan program **Food Delivery Route Optimizer** dalam bentuk markdown yang bisa langsung kamu jadikan `.md` file. Penjelasan ini berdasarkan struktur program C++ yang sudah dibuat sebelumnya.
-
-***
-
 # Penjelasan Program Food Delivery Route Optimizer
 
 ## 1. Gambaran Umum Program
