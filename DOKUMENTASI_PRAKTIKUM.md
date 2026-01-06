@@ -336,6 +336,33 @@ php artisan make:seeder NamaSeeder
 ```
 
 ---
+```
+graph TD
+    subgraph ESP32
+        VCC[Pin 3.3V atau 5V]
+        D4[Pin D4 / GPIO 4]
+    end
+
+    subgraph SENSOR_DS18B20
+        Red[Kabel Merah]
+        Yellow[Kabel Kuning]
+    end
+
+    Resistor[RESISTOR 4.7k Ohm]
+
+    VCC ---|Jalur Daya Positif| Red
+    D4 ---|Jalur Data| Yellow
+
+    %% Inilah "Jembatan" Resistornya
+    Red -.->|Kaki 1 Resistor Nempel Disini| Resistor
+    Resistor -.->|Kaki 2 Resistor Nempel Disini| Yellow
+
+    style Resistor fill:#f9f,stroke:#333,stroke-width:2px,color:black
+    style VCC fill:#ffcccc,stroke:red
+    style Red fill:#ffcccc,stroke:red
+    style D4 fill:#ffffcc,stroke:#e6e600
+    style Yellow fill:#ffffcc,stroke:#e6e600
+```
 
 ## Struktur File yang Dimodifikasi
 
@@ -370,3 +397,4 @@ dompetku/
 
 **Dibuat oleh:** Antigravity AI  
 **Tanggal pembuatan:** 28 Desember 2024
+
