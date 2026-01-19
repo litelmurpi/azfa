@@ -1,52 +1,18 @@
-# 📚 PENJELASAN DETAIL KODE PROGRAM
+# 📚 PENJELASAN PROGRAM FOOD DELIVERY ROUTE OPTIMIZER
 
-## Food Delivery Route Optimizer
+## 🎯 Deskripsi Program
 
----
-
-# BAGIAN 1: HEADER DAN NAMESPACE
-
-```cpp
-#include <iostream>
-#include <string>
-#include <cmath>
-#include <iomanip>
-using namespace std;
-```
-
-| Baris | Kode                   | Penjelasan                                                                                |
-| ----- | ---------------------- | ----------------------------------------------------------------------------------------- |
-| 1     | `#include <iostream>`  | Mengimpor library untuk input/output standar (`cin`, `cout`)                              |
-| 2     | `#include <string>`    | Mengimpor library untuk tipe data `string`                                                |
-| 3     | `#include <cmath>`     | Mengimpor library matematika untuk fungsi `sqrt()` dan `pow()`                            |
-| 4     | `#include <iomanip>`   | Mengimpor library untuk formatting output (`setprecision`, `fixed`)                       |
-| 5     | `using namespace std;` | Menggunakan namespace standar agar tidak perlu menulis `std::` sebelum `cout`, `cin`, dll |
+**Food Delivery Route Optimizer** adalah sistem manajemen pengiriman makanan yang mensimulasikan cara kerja aplikasi ojek online seperti GoFood atau GrabFood. Program ini mengimplementasikan berbagai struktur data untuk mengelola pesanan, driver, dan riwayat pengiriman secara efisien.
 
 ---
 
-# BAGIAN 2: DEFINISI STRUCT
+## 📊 STRUKTUR DATA YANG DIGUNAKAN
 
-## 2.1 Struct MenuItem
+### 1. **STRUCT** - Model Data
 
-```cpp
-struct MenuItem {
-    string namaItem;
-    int harga;
-    MenuItem* next;
-};
-```
+Struct digunakan untuk merepresentasikan objek-objek dalam dunia nyata sebagai tipe data terstruktur.
 
-| Member     | Tipe        | Penjelasan                                             |
-| ---------- | ----------- | ------------------------------------------------------ |
-| `namaItem` | `string`    | Menyimpan nama item makanan (contoh: "Nasi Goreng")    |
-| `harga`    | `int`       | Menyimpan harga item dalam Rupiah                      |
-| `next`     | `MenuItem*` | Pointer ke item berikutnya → membentuk **Linked List** |
-
-**Fungsi:** Struct ini merepresentasikan satu item dalam pesanan. Menggunakan pointer `next` untuk membuat linked list item-item dalam satu order.
-
----
-
-## 2.2 Struct Location
+#### 1.1 Struct Location
 
 ```cpp
 struct Location {
@@ -55,73 +21,86 @@ struct Location {
 };
 ```
 
-| Member   | Tipe     | Penjelasan                                                         |
-| -------- | -------- | ------------------------------------------------------------------ |
-| `alamat` | `string` | Menyimpan alamat dalam bentuk teks (contoh: "Jl. Sudirman No. 10") |
-| `x`      | `float`  | Koordinat X (posisi horizontal)                                    |
-| `y`      | `float`  | Koordinat Y (posisi vertikal)                                      |
+**Fungsi:**
 
-**Fungsi:** Menyimpan informasi lokasi untuk menghitung jarak menggunakan koordinat kartesian.
+- Menyimpan informasi lokasi dalam 2 bentuk:
+  - `alamat`: Alamat dalam bentuk teks
+  - `x, y`: Koordinat untuk perhitungan jarak
 
----
+**Contoh Penggunaan:**
 
-## 2.3 Struct Order
+```cpp
+Location restaurant = {"Restaurant", 0, 0};
+Location customer = {"Jl. Sudirman No. 10", 4.5, 3.2};
+```
+
+#### 1.2 Struct MenuItem
+
+```cpp
+struct MenuItem {
+    string namaItem;
+    int harga;
+    MenuItem* next;  // pointer ke item berikutnya
+};
+```
+
+**Fungsi:**
+
+- Merepresentasikan satu item makanan dalam pesanan
+- `next`: Pointer untuk membentuk **Linked List**
+
+**Metode Struktur Data:** **Singly Linked List**
+
+**Operasi yang Didukung:**
+
+- Insert at tail (tambah item di akhir)
+- Traversal (tampilkan semua item)
+- Aggregate (hitung total harga)
+
+#### 1.3 Struct Order
 
 ```cpp
 struct Order {
     int orderID;
     string customerName;
     Location lokasi;
-    MenuItem* items;  // LinkedList items
+    MenuItem* items;  // HEAD linked list items
     int totalHarga;
-    string status;  // "pending", "on delivery", "completed"
-    int timestamp;  // dalam menit sejak buka
-    Order* next;
+    string status;    // "pending", "on delivery", "completed"
+    int timestamp;
+    Order* next;      // pointer untuk Queue
 };
 ```
 
-| Member         | Tipe        | Penjelasan                                                     |
-| -------------- | ----------- | -------------------------------------------------------------- |
-| `orderID`      | `int`       | ID unik untuk setiap order (auto-increment)                    |
-| `customerName` | `string`    | Nama pelanggan yang memesan                                    |
-| `lokasi`       | `Location`  | Lokasi pengiriman (alamat + koordinat)                         |
-| `items`        | `MenuItem*` | **Head pointer** ke linked list item makanan                   |
-| `totalHarga`   | `int`       | Total harga semua item                                         |
-| `status`       | `string`    | Status order: `"pending"`, `"on delivery"`, atau `"completed"` |
-| `timestamp`    | `int`       | Waktu pemesanan dalam menit                                    |
-| `next`         | `Order*`    | Pointer ke order berikutnya → untuk **Queue** linked list      |
+**Fungsi:**
 
-**Fungsi:** Merepresentasikan satu pesanan lengkap dengan semua informasinya.
+- Menyimpan informasi lengkap pesanan
+- `items`: HEAD pointer ke linked list MenuItem
+- `next`: Pointer untuk membentuk Queue
 
----
+**Metode Struktur Data:** **Singly Linked List** (untuk Queue)
 
-## 2.4 Struct Driver
+#### 1.4 Struct Driver
 
 ```cpp
 struct Driver {
     int driverID;
     string nama;
     Location posisiSaatIni;
-    int kapasitas;  // max order yg bisa dibawa
+    int kapasitas;
     string status;  // "available", "busy"
-    Order* currentOrders;  // LinkedList order yang sedang dibawa
+    Order* currentOrders;
 };
 ```
 
-| Member          | Tipe       | Penjelasan                                                |
-| --------------- | ---------- | --------------------------------------------------------- |
-| `driverID`      | `int`      | ID unik driver                                            |
-| `nama`          | `string`   | Nama driver                                               |
-| `posisiSaatIni` | `Location` | Posisi driver saat ini (berubah setelah delivery)         |
-| `kapasitas`     | `int`      | Maksimal order yang bisa dibawa (default: 3)              |
-| `status`        | `string`   | Status: `"available"` atau `"busy"`                       |
-| `currentOrders` | `Order*`   | Linked list order yang sedang dibawa (untuk pengembangan) |
+**Fungsi:**
 
-**Fungsi:** Menyimpan data driver termasuk posisi dan status ketersediaan.
+- Menyimpan data driver/kurir
+- `posisiSaatIni`: Lokasi driver yang berubah setelah pengantaran
 
----
+**Metode Struktur Data:** **Array** (max 5 driver)
 
-## 2.5 Struct StackNode
+#### 1.5 Struct StackNode
 
 ```cpp
 struct StackNode {
@@ -130,73 +109,21 @@ struct StackNode {
 };
 ```
 
-| Member      | Tipe         | Penjelasan                              |
-| ----------- | ------------ | --------------------------------------- |
-| `orderData` | `Order`      | Salinan data order yang sudah selesai   |
-| `next`      | `StackNode*` | Pointer ke node di bawahnya dalam stack |
+**Fungsi:**
 
-**Fungsi:** Node untuk implementasi **Stack** riwayat order (LIFO - Last In First Out).
+- Node untuk Stack yang menyimpan riwayat order selesai
 
----
-
-# BAGIAN 3: VARIABEL GLOBAL
-
-```cpp
-Order* orderQueueHead = NULL;  // LinkedList Queue untuk pending orders
-Driver drivers[5];  // Array of drivers (max 5 driver)
-int driverCount = 0;
-StackNode* completedOrdersStack = NULL;  // Stack untuk history
-Location popularLocations[10];  // Array lokasi populer
-int locationCount = 0;
-int nextOrderID = 1;
-```
-
-| Variabel               | Tipe           | Nilai Awal | Penjelasan                                     |
-| ---------------------- | -------------- | ---------- | ---------------------------------------------- |
-| `orderQueueHead`       | `Order*`       | `NULL`     | Head pointer untuk queue order pending         |
-| `drivers`              | `Driver[5]`    | -          | Array statis untuk menyimpan maksimal 5 driver |
-| `driverCount`          | `int`          | `0`        | Jumlah driver yang terdaftar saat ini          |
-| `completedOrdersStack` | `StackNode*`   | `NULL`     | Top pointer untuk stack riwayat                |
-| `popularLocations`     | `Location[10]` | -          | Array lokasi populer (belum digunakan penuh)   |
-| `locationCount`        | `int`          | `0`        | Jumlah lokasi populer                          |
-| `nextOrderID`          | `int`          | `1`        | ID untuk order berikutnya (auto-increment)     |
+**Metode Struktur Data:** **Stack (LIFO)**
 
 ---
 
-# BAGIAN 4: FUNGSI UTILITY
+### 2. **LINKED LIST** - Data Dinamis
 
-## 4.1 hitungJarak()
+Linked List digunakan untuk menyimpan data yang jumlahnya tidak bisa diprediksi.
 
-```cpp
-float hitungJarak(Location a, Location b) {
-    return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
-}
-```
+#### 2.1 Linked List untuk MenuItem
 
-**Penjelasan baris per baris:**
-
-| Baris | Kode                                                  | Penjelasan                                                 |
-| ----- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| 1     | `float hitungJarak(Location a, Location b)`           | Deklarasi fungsi dengan 2 parameter Location, return float |
-| 2     | `return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));` | Menghitung jarak Euclidean: √((x₁-x₂)² + (y₁-y₂)²)         |
-
-**Rumus Matematika:**
-
-```
-Jarak = √[(x₁ - x₂)² + (y₁ - y₂)²]
-```
-
-**Contoh:**
-
-- Lokasi A: (1, 1)
-- Lokasi B: (4, 5)
-- Jarak = √[(1-4)² + (1-5)²] = √[9 + 16] = √25 = **5 km**
-
----
-
-# BAGIAN 5: OPERASI MENU ITEM (LINKED LIST)
-
-## 5.1 tambahItem()
+**Implementasi:**
 
 ```cpp
 void tambahItem(MenuItem*& head, string nama, int harga) {
@@ -217,28 +144,25 @@ void tambahItem(MenuItem*& head, string nama, int harga) {
 }
 ```
 
-**Penjelasan baris per baris:**
+**Metode:**
 
-| Baris | Kode                                                       | Penjelasan                                                                                                 |
-| ----- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 1     | `void tambahItem(MenuItem*& head, string nama, int harga)` | Parameter `head` menggunakan **reference pointer** (`*&`) agar perubahan head berpengaruh ke variabel asli |
-| 2     | `MenuItem* newItem = new MenuItem;`                        | Alokasi memori dinamis untuk node baru                                                                     |
-| 3     | `newItem->namaItem = nama;`                                | Mengisi nama item                                                                                          |
-| 4     | `newItem->harga = harga;`                                  | Mengisi harga item                                                                                         |
-| 5     | `newItem->next = NULL;`                                    | Set next ke NULL (node terakhir)                                                                           |
-| 7-8   | `if (head == NULL) { head = newItem; }`                    | Jika list kosong, head langsung menunjuk ke node baru                                                      |
-| 9-13  | `else { ... temp->next = newItem; }`                       | Jika tidak kosong, traverse ke akhir list lalu sambungkan                                                  |
+- **Insert at Tail**: Menambah node di akhir list
+- **Traversal**: Menelusuri semua node
+
+**Kompleksitas:**
+
+- Insert: O(n) - harus traverse ke akhir
+- Traversal: O(n)
 
 **Visualisasi:**
 
 ```
-Sebelum: head → [Item1] → [Item2] → NULL
-Setelah: head → [Item1] → [Item2] → [NewItem] → NULL
+head → [Nasi Goreng|25000] → [Es Teh|5000] → [Kerupuk|3000] → NULL
 ```
 
----
+#### 2.2 Fungsi Pendukung Linked List
 
-## 5.2 tampilkanItems()
+**Tampilkan Items:**
 
 ```cpp
 void tampilkanItems(MenuItem* head) {
@@ -250,18 +174,7 @@ void tampilkanItems(MenuItem* head) {
 }
 ```
 
-| Baris | Kode                     | Penjelasan                                        |
-| ----- | ------------------------ | ------------------------------------------------- |
-| 2     | `MenuItem* temp = head;` | Gunakan pointer sementara agar head tidak berubah |
-| 3     | `while (temp != NULL)`   | Loop selama belum mencapai akhir list             |
-| 4     | `cout << ...`            | Print nama dan harga item                         |
-| 5     | `temp = temp->next;`     | Pindah ke node berikutnya                         |
-
-**Kompleksitas:** O(n) - harus traverse semua node
-
----
-
-## 5.3 hitungTotalHarga()
+**Hitung Total Harga:**
 
 ```cpp
 int hitungTotalHarga(MenuItem* head) {
@@ -275,17 +188,29 @@ int hitungTotalHarga(MenuItem* head) {
 }
 ```
 
-| Baris | Kode                              | Penjelasan                             |
-| ----- | --------------------------------- | -------------------------------------- |
-| 2     | `int total = 0;`                  | Inisialisasi akumulator                |
-| 4-6   | `while ... total += temp->harga;` | Traverse dan jumlahkan harga tiap item |
-| 7     | `return total;`                   | Kembalikan total harga                 |
+**Metode:** **Aggregate Function** - Menghitung nilai total dari semua node
 
 ---
 
-# BAGIAN 6: OPERASI QUEUE (LINKED LIST)
+### 3. **QUEUE** - Antrian Order (FIFO)
 
-## 6.1 enqueueOrder()
+Queue diimplementasikan menggunakan Linked List dengan prinsip **First In First Out**.
+
+#### 3.1 Struktur Queue
+
+```
+                    FRONT (keluar)                    REAR (masuk)
+                         ↓                                ↓
+orderQueueHead → [Order #1] → [Order #2] → [Order #3] → NULL
+```
+
+**Variabel Global:**
+
+```cpp
+Order* orderQueueHead = NULL;  // Pointer ke order pertama
+```
+
+#### 3.2 Operasi Enqueue (Masuk Antrian)
 
 ```cpp
 void enqueueOrder(Order orderBaru) {
@@ -300,26 +225,22 @@ void enqueueOrder(Order orderBaru) {
         while (temp->next != NULL) {
             temp = temp->next;
         }
-        temp->next = newOrder;
+        temp->next = newOrder;  // Tambah di BELAKANG
     }
-    cout << "✓ Order #" << orderBaru.orderID << " ditambahkan ke queue!" << endl;
 }
 ```
 
-| Baris | Kode                                  | Penjelasan                                  |
-| ----- | ------------------------------------- | ------------------------------------------- |
-| 1     | `void enqueueOrder(Order orderBaru)`  | Menerima order by value (copy)              |
-| 2     | `Order* newOrder = new Order;`        | Alokasi memori untuk node baru              |
-| 3     | `*newOrder = orderBaru;`              | Copy semua data dari parameter ke node baru |
-| 4     | `newOrder->next = NULL;`              | Node baru akan jadi yang terakhir           |
-| 6-7   | `if (orderQueueHead == NULL)`         | Jika queue kosong, head = node baru         |
-| 8-13  | `else { ... temp->next = newOrder; }` | Jika tidak, tambahkan di akhir (FIFO)       |
+**Metode:** **Enqueue** - Insert at rear
+**Kompleksitas:** O(n) - harus traverse ke akhir
 
-**Prinsip Queue (FIFO):** Order baru masuk dari belakang.
+**Proses:**
 
----
+1. Alokasi memory untuk node baru
+2. Copy data order ke node baru
+3. Jika queue kosong → head = node baru
+4. Jika tidak → traverse ke akhir, sambungkan node baru
 
-## 6.2 dequeueOrder()
+#### 3.3 Operasi Dequeue (Keluar Antrian)
 
 ```cpp
 Order* dequeueOrder() {
@@ -327,96 +248,107 @@ Order* dequeueOrder() {
         return NULL;
     }
     Order* temp = orderQueueHead;
-    orderQueueHead = orderQueueHead->next;
-    return temp;
+    orderQueueHead = orderQueueHead->next;  // Geser head
+
+    // Buat copy dari order data
+    Order* order = new Order;
+    *order = *temp;
+    order->next = NULL;  // Putus link ke queue
+
+    // Hapus node asli untuk mencegah memory leak
+    delete temp;
+
+    return order;
 }
 ```
 
-| Baris | Kode                                       | Penjelasan                     |
-| ----- | ------------------------------------------ | ------------------------------ |
-| 2-4   | `if (orderQueueHead == NULL) return NULL;` | Jika queue kosong, return NULL |
-| 5     | `Order* temp = orderQueueHead;`            | Simpan pointer ke node pertama |
-| 6     | `orderQueueHead = orderQueueHead->next;`   | Geser head ke node kedua       |
-| 7     | `return temp;`                             | Kembalikan node yang diambil   |
+**Metode:** **Dequeue** - Remove from front
+**Kompleksitas:** O(1) - langsung akses head
 
-**Prinsip Queue (FIFO):** Order diambil dari depan.
+**Proses:**
 
-**Visualisasi:**
+1. Simpan pointer head ke temp
+2. Geser head ke node berikutnya
+3. **Buat copy** dari data order
+4. **Delete node asli** (memory management)
+5. Return pointer ke copy
 
-```
-Sebelum: head → [Order1] → [Order2] → NULL
-                   ↑
-               (diambil)
-Setelah: head → [Order2] → NULL
-```
+**⚠️ Penting:** Fungsi ini mengembalikan **copy** dan menghapus node asli untuk mencegah memory leak.
 
----
-
-## 6.3 tampilkanPendingOrders()
+#### 3.4 Operasi Peek (Lihat Tanpa Hapus)
 
 ```cpp
 void tampilkanPendingOrders() {
-    if (orderQueueHead == NULL) {
-        cout << "Tidak ada order pending." << endl;
-        return;
-    }
-
-    cout << "\n===== PENDING ORDERS =====" << endl;
     Order* temp = orderQueueHead;
-    int count = 1;
     while (temp != NULL) {
-        cout << count++ << ". Order #" << temp->orderID << " - " << temp->customerName << endl;
-        cout << "   Alamat: " << temp->lokasi.alamat << " (" << temp->lokasi.x << "," << temp->lokasi.y << ")" << endl;
-        cout << "   Items:" << endl;
-        tampilkanItems(temp->items);
-        cout << "   Total: Rp" << temp->totalHarga << endl;
-        cout << "   Waktu: " << temp->timestamp << " menit" << endl << endl;
+        // Tampilkan detail order
         temp = temp->next;
     }
 }
 ```
 
-| Baris | Kode                                           | Penjelasan                                            |
-| ----- | ---------------------------------------------- | ----------------------------------------------------- |
-| 2-5   | `if (orderQueueHead == NULL)`                  | Guard clause jika queue kosong                        |
-| 8-9   | `Order* temp = orderQueueHead; int count = 1;` | Inisialisasi traversal dan counter                    |
-| 10-17 | `while (temp != NULL) { ... }`                 | Loop semua order dan print detailnya                  |
-| 13    | `tampilkanItems(temp->items);`                 | Panggil fungsi untuk print items (nested linked list) |
+**Metode:** **Traversal** - Melihat semua elemen tanpa menghapus
+**Kompleksitas:** O(n)
 
 ---
 
-# BAGIAN 7: OPERASI STACK (HISTORY)
+### 4. **STACK** - Riwayat Order (LIFO)
 
-## 7.1 pushStack()
+Stack diimplementasikan menggunakan Linked List dengan prinsip **Last In First Out**.
+
+#### 4.1 Struktur Stack
+
+```
+   TOP (masuk & keluar)
+          ↓
+completedOrdersStack → [Order #3] ← terakhir selesai
+                           ↓
+                       [Order #2]
+                           ↓
+                       [Order #1] ← pertama selesai
+                           ↓
+                         NULL
+```
+
+**Variabel Global:**
+
+```cpp
+StackNode* completedOrdersStack = NULL;  // Pointer ke top
+```
+
+#### 4.2 Operasi Push (Masuk Stack)
 
 ```cpp
 void pushStack(Order order) {
     StackNode* newNode = new StackNode;
     newNode->orderData = order;
-    newNode->next = completedOrdersStack;
-    completedOrdersStack = newNode;
+    newNode->next = completedOrdersStack;  // Tunjuk ke top lama
+    completedOrdersStack = newNode;        // Top = node baru
 }
 ```
 
-| Baris | Kode                                    | Penjelasan                     |
-| ----- | --------------------------------------- | ------------------------------ |
-| 2     | `StackNode* newNode = new StackNode;`   | Alokasi node baru              |
-| 3     | `newNode->orderData = order;`           | Copy data order ke node        |
-| 4     | `newNode->next = completedOrdersStack;` | Node baru menunjuk ke top lama |
-| 5     | `completedOrdersStack = newNode;`       | Top stack digeser ke node baru |
+**Metode:** **Push** - Insert at top
+**Kompleksitas:** O(1) - langsung insert di head
 
-**Prinsip Stack (LIFO):** Node baru selalu di atas (top).
+**Proses:**
+
+1. Alokasi memory untuk node baru
+2. Copy data order ke node
+3. Node baru menunjuk ke top lama
+4. Update top ke node baru
 
 **Visualisasi:**
 
 ```
-Sebelum:     top → [Order2] → [Order1] → NULL
-Setelah: newTop → [Order3] → [Order2] → [Order1] → NULL
+SEBELUM push Order #4:
+top → [Order #3] → [Order #2] → NULL
+
+SETELAH push:
+top → [Order #4] → [Order #3] → [Order #2] → NULL
+      (baru)
 ```
 
----
-
-## 7.2 popStack()
+#### 4.3 Operasi Pop (Keluar Stack)
 
 ```cpp
 Order* popStack() {
@@ -425,48 +357,59 @@ Order* popStack() {
     }
     StackNode* temp = completedOrdersStack;
     completedOrdersStack = completedOrdersStack->next;
-    Order* order = &(temp->orderData);
+
+    // Buat copy dari order data
+    Order* order = new Order;
+    *order = temp->orderData;
+
+    // Hapus node untuk mencegah memory leak
+    delete temp;
+
     return order;
 }
 ```
 
-| Baris | Kode                                                 | Penjelasan                     |
-| ----- | ---------------------------------------------------- | ------------------------------ |
-| 2-4   | `if (completedOrdersStack == NULL)`                  | Jika stack kosong, return NULL |
-| 5     | `StackNode* temp = completedOrdersStack;`            | Simpan pointer ke top          |
-| 6     | `completedOrdersStack = completedOrdersStack->next;` | Geser top ke bawah             |
-| 7     | `Order* order = &(temp->orderData);`                 | Ambil alamat data order        |
-| 8     | `return order;`                                      | Kembalikan pointer ke order    |
+**Metode:** **Pop** - Remove from top
+**Kompleksitas:** O(1) - langsung akses top
 
----
+**Proses:**
 
-## 7.3 tampilkanHistory()
+1. Simpan pointer top ke temp
+2. Geser top ke node berikutnya
+3. **Buat copy** dari data order
+4. **Delete node asli** (memory management)
+5. Return pointer ke copy
+
+#### 4.4 Operasi Peek (Lihat Tanpa Hapus)
 
 ```cpp
 void tampilkanHistory() {
-    if (completedOrdersStack == NULL) {
-        cout << "Belum ada order yang selesai." << endl;
-        return;
-    }
-
-    cout << "\n===== HISTORY COMPLETED ORDERS =====" << endl;
     StackNode* temp = completedOrdersStack;
-    int count = 1;
     while (temp != NULL) {
-        cout << count++ << ". Order #" << temp->orderData.orderID << " - " << temp->orderData.customerName << endl;
-        cout << "   Total: Rp" << temp->orderData.totalHarga << endl;
+        // Tampilkan detail order
         temp = temp->next;
     }
 }
 ```
 
-**Catatan:** Order terbaru muncul di atas karena sifat LIFO stack.
+**Metode:** **Traversal** - Melihat semua elemen dari top ke bottom
+**Kompleksitas:** O(n)
 
 ---
 
-# BAGIAN 8: MANAJEMEN DRIVER (ARRAY)
+### 5. **ARRAY** - Penyimpanan Driver
 
-## 8.1 tambahDriver()
+Array digunakan untuk menyimpan data driver dengan ukuran tetap.
+
+```cpp
+Driver drivers[5];  // Array of drivers (max 5 driver)
+int driverCount = 0;
+```
+
+**Metode:** **Static Array**
+**Kapasitas:** Maksimal 5 driver
+
+#### 5.1 Operasi Insert
 
 ```cpp
 void tambahDriver(string nama, float x, float y) {
@@ -479,45 +422,34 @@ void tambahDriver(string nama, float x, float y) {
     drivers[driverCount].nama = nama;
     drivers[driverCount].posisiSaatIni.x = x;
     drivers[driverCount].posisiSaatIni.y = y;
-    drivers[driverCount].posisiSaatIni.alamat = "Starting Point";
-    drivers[driverCount].kapasitas = 3;
     drivers[driverCount].status = "available";
-    drivers[driverCount].currentOrders = NULL;
     driverCount++;
-
-    cout << "✓ Driver " << nama << " ditambahkan!" << endl;
 }
 ```
 
-| Baris | Kode                                               | Penjelasan                       |
-| ----- | -------------------------------------------------- | -------------------------------- |
-| 2-5   | `if (driverCount >= 5)`                            | Cek batas maksimal array         |
-| 7     | `drivers[driverCount].driverID = driverCount + 1;` | ID mulai dari 1                  |
-| 8-14  | `drivers[driverCount]...`                          | Inisialisasi semua member struct |
-| 15    | `driverCount++;`                                   | Increment counter driver         |
+**Kompleksitas:** O(1) - direct access
 
----
-
-## 8.2 tampilkanDrivers()
+#### 5.2 Operasi Traversal
 
 ```cpp
 void tampilkanDrivers() {
-    cout << "\n===== DAFTAR DRIVER =====" << endl;
     for (int i = 0; i < driverCount; i++) {
-        cout << i+1 << ". " << drivers[i].nama << " (ID: " << drivers[i].driverID << ")" << endl;
-        cout << "   Posisi: (" << drivers[i].posisiSaatIni.x << "," << drivers[i].posisiSaatIni.y << ")" << endl;
-        cout << "   Status: " << drivers[i].status << endl << endl;
+        cout << drivers[i].nama << endl;
+        cout << "Posisi: (" << drivers[i].posisiSaatIni.x << ","
+             << drivers[i].posisiSaatIni.y << ")" << endl;
     }
 }
 ```
 
-**Traversal Array:** Menggunakan loop `for` dengan index.
+**Kompleksitas:** O(n)
 
 ---
 
-# BAGIAN 9: SORTING (BUBBLE SORT)
+## 🔍 ALGORITMA YANG DIGUNAKAN
 
-## 9.1 sortDriversByDistance()
+### 1. **SORTING - Bubble Sort**
+
+Digunakan untuk mengurutkan driver berdasarkan jarak ke lokasi tertentu.
 
 ```cpp
 void sortDriversByDistance(Location target) {
@@ -527,6 +459,7 @@ void sortDriversByDistance(Location target) {
             float jarak2 = hitungJarak(drivers[j+1].posisiSaatIni, target);
 
             if (jarak1 > jarak2) {
+                // Swap driver
                 Driver temp = drivers[j];
                 drivers[j] = drivers[j+1];
                 drivers[j+1] = temp;
@@ -536,28 +469,45 @@ void sortDriversByDistance(Location target) {
 }
 ```
 
-| Baris | Kode                                            | Penjelasan                          |
-| ----- | ----------------------------------------------- | ----------------------------------- |
-| 2     | `for (int i = 0; i < driverCount - 1; i++)`     | Outer loop: jumlah pass             |
-| 3     | `for (int j = 0; j < driverCount - i - 1; j++)` | Inner loop: compare adjacent pairs  |
-| 4-5   | `float jarak1 = ...; float jarak2 = ...;`       | Hitung jarak kedua driver ke target |
-| 7-11  | `if (jarak1 > jarak2) { swap }`                 | Jika urutan salah, tukar posisi     |
-
-**Algoritma Bubble Sort:**
-
-1. Bandingkan elemen bersebelahan
-2. Tukar jika urutan salah
-3. Ulangi sampai tidak ada pertukaran
-
+**Metode:** **Bubble Sort**
 **Kompleksitas:** O(n²)
+**Pendekatan:** **Greedy Algorithm** - Pilih driver terdekat
 
-**Hasil:** Driver diurutkan dari yang **terdekat** ke target.
+**Cara Kerja:**
+
+1. Bandingkan 2 elemen bersebelahan
+2. Jika urutan salah (jarak1 > jarak2) → tukar posisi
+3. Ulangi untuk semua pasangan
+4. Elemen terbesar "menggelembung" ke akhir
+
+**Visualisasi:**
+
+```
+SEBELUM sort (target = 0,0):
+[Andi (5,2) = 5.39km] [Siti (3,5) = 5.83km] [Budi (1,0) = 1.00km]
+
+Pass 1: Bandingkan & swap
+[Andi (5,2)] [Budi (1,0)] [Siti (3,5)]
+
+Pass 2: Bandingkan & swap
+[Budi (1,0)] [Andi (5,2)] [Siti (3,5)]
+
+SETELAH sort:
+[Budi (1,0) = 1.00km] [Andi (5,2) = 5.39km] [Siti (3,5) = 5.83km]
+  TERDEKAT                                      TERJAUH
+```
+
+**Kenapa Bubble Sort?**
+
+- Jumlah driver maksimal hanya 5 (dataset kecil)
+- Kompleksitas O(n²) tidak masalah untuk n kecil
+- Mudah diimplementasikan dan dipahami
 
 ---
 
-# BAGIAN 10: SEARCHING (LINEAR SEARCH)
+### 2. **SEARCHING - Linear Search**
 
-## 10.1 searchOrderByID()
+Digunakan untuk mencari order berdasarkan ID.
 
 ```cpp
 Order* searchOrderByID(int id) {
@@ -572,360 +522,428 @@ Order* searchOrderByID(int id) {
 }
 ```
 
-| Baris | Kode                                    | Penjelasan                    |
-| ----- | --------------------------------------- | ----------------------------- |
-| 2     | `Order* temp = orderQueueHead;`         | Mulai dari head queue         |
-| 3     | `while (temp != NULL)`                  | Traverse semua node           |
-| 4-6   | `if (temp->orderID == id) return temp;` | Jika ID cocok, return pointer |
-| 7     | `temp = temp->next;`                    | Pindah ke node berikutnya     |
-| 9     | `return NULL;`                          | Tidak ditemukan               |
+**Metode:** **Linear Search (Sequential Search)**
+**Kompleksitas:** O(n)
 
-**Kompleksitas:** O(n) - worst case harus cek semua node
+**Cara Kerja:**
+
+1. Mulai dari head
+2. Periksa setiap node satu per satu
+3. Jika ID cocok → return pointer ke node
+4. Jika sampai akhir tidak ketemu → return NULL
+
+**Kenapa Linear Search?**
+
+- Data disimpan dalam Linked List (tidak bisa random access)
+- Binary Search tidak bisa digunakan karena data tidak sorted by ID
+- Untuk dataset kecil, Linear Search cukup efisien
 
 ---
 
-## 10.2 binarySearchLocation()
+### 3. **DISTANCE CALCULATION - Euclidean Distance**
+
+Digunakan untuk menghitung jarak antara dua titik koordinat.
 
 ```cpp
-int binarySearchLocation(string namaLokasi) {
-    // Simple linear search karena array kecil
-    for (int i = 0; i < locationCount; i++) {
-        if (popularLocations[i].alamat == namaLokasi) {
-            return i;
-        }
-    }
-    return -1;
+float hitungJarak(Location a, Location b) {
+    return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 ```
 
-**Catatan:** Meskipun namanya binary search, implementasinya adalah **linear search** karena data kecil.
+**Metode:** **Euclidean Distance (Rumus Pythagoras)**
+**Kompleksitas:** O(1)
+
+**Rumus Matematika:**
+
+```
+Jarak = √[(x₁ - x₂)² + (y₁ - y₂)²]
+```
+
+**Contoh Perhitungan:**
+
+```
+Driver Budi: (1, 1)
+Customer: (4, 5)
+
+Jarak = √[(1-4)² + (1-5)²]
+      = √[(-3)² + (-4)²]
+      = √[9 + 16]
+      = √25
+      = 5 km
+```
 
 ---
 
-# BAGIAN 11: ASSIGN ORDER KE DRIVER (CORE LOGIC)
+## 🔄 ALUR KERJA PROGRAM
 
-## 11.1 assignOrderToDriver()
+### 1. **Inisialisasi**
+
+```cpp
+int main() {
+    // Inisialisasi driver
+    tambahDriver("Budi", 1.0, 0.0);
+    tambahDriver("Siti", 3.0, 5.0);
+    tambahDriver("Andi", 5.0, 2.0);
+
+    // Loop menu utama
+    while (true) {
+        // Tampilkan menu dan proses pilihan
+    }
+}
+```
+
+### 2. **Buat Order Baru (Menu 1)**
+
+**Alur:**
+
+```
+User Input → buatOrderBaru() → enqueueOrder() → Queue
+```
+
+**Proses:**
+
+1. Input data customer (nama, alamat, koordinat)
+2. Input items (linked list)
+3. Hitung total harga
+4. Masukkan ke queue dengan `enqueueOrder()`
+
+**Struktur Data Terlibat:**
+
+- Linked List (untuk items)
+- Queue (untuk pending orders)
+
+### 3. **Assign Order ke Driver (Menu 3)**
+
+**Alur:**
+
+```
+Queue → dequeueOrder() → sortDriversByDistance() →
+assignToDriver() → pushStack() → Stack
+```
+
+**Proses Detail:**
 
 ```cpp
 void assignOrderToDriver() {
-    if (orderQueueHead == NULL) {
-        cout << "Tidak ada order untuk di-assign!" << endl;
-        return;
-    }
+    // 1. Validasi
+    if (orderQueueHead == NULL) return;
 
-    if (driverCount == 0) {
-        cout << "Tidak ada driver tersedia!" << endl;
-        return;
-    }
-
+    // 2. Ambil order dari Queue
     Order* order = dequeueOrder();
 
-    // Sort drivers berdasarkan jarak ke lokasi restaurant (asumsi 0,0)
+    // 3. Sort driver berdasarkan jarak
     Location restaurant = {"Restaurant", 0, 0};
     sortDriversByDistance(restaurant);
 
-    // Cari driver available
-    bool assigned = false;
+    // 4. Cari driver available
     for (int i = 0; i < driverCount; i++) {
         if (drivers[i].status == "available") {
-            cout << "\n✓ Order #" << order->orderID << " di-assign ke " << drivers[i].nama << endl;
+            // 5. Hitung jarak ke customer
             float jarak = hitungJarak(drivers[i].posisiSaatIni, order->lokasi);
-            cout << "  Jarak: " << fixed << setprecision(2) << jarak << " km" << endl;
-            cout << "  Estimasi: " << (int)(jarak * 5) << " menit" << endl;
 
+            // 6. Assign order
             drivers[i].status = "busy";
-            order->status = "on delivery";
-
-            // Simulasi: setelah delivery, pindahkan ke completed stack
             order->status = "completed";
-            pushStack(*order);
-            drivers[i].status = "available";
-            drivers[i].posisiSaatIni = order->lokasi;
 
-            assigned = true;
+            // 7. Push ke Stack history
+            pushStack(*order);
+
+            // 8. Update posisi driver
+            drivers[i].posisiSaatIni = order->lokasi;
+            drivers[i].status = "available";
+
             break;
         }
     }
 
-    if (!assigned) {
-        cout << "Semua driver sedang busy! Order dikembalikan ke queue." << endl;
-        enqueueOrder(*order);
-    }
+    // 9. Hapus order untuk cegah memory leak
+    delete order;
 }
 ```
 
-**Alur Logika:**
+**Struktur Data Terlibat:**
+
+- Queue (dequeue order)
+- Array (driver list)
+- Sorting Algorithm (bubble sort)
+- Distance Calculation (euclidean)
+- Stack (push completed order)
+
+**Diagram Alur:**
 
 ```
-┌─────────────────────────────────────┐
-│ 1. Cek ada order di queue?          │
-│    ├─ Tidak → "Tidak ada order"     │
-│    └─ Ya → Lanjut                   │
-├─────────────────────────────────────┤
-│ 2. Cek ada driver?                  │
-│    ├─ Tidak → "Tidak ada driver"    │
-│    └─ Ya → Lanjut                   │
-├─────────────────────────────────────┤
-│ 3. Dequeue order dari queue         │
-├─────────────────────────────────────┤
-│ 4. Sort driver by distance          │
-│    (Bubble Sort)                    │
-├─────────────────────────────────────┤
-│ 5. Loop cari driver available       │
-│    ├─ Ditemukan:                    │
-│    │   ├─ Hitung jarak              │
-│    │   ├─ Tampilkan info            │
-│    │   ├─ Simulasi delivery         │
-│    │   ├─ Push ke stack history     │
-│    │   └─ Update posisi driver      │
-│    └─ Tidak ditemukan:              │
-│        └─ Kembalikan order ke queue │
-└─────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│         assignOrderToDriver()               │
+├─────────────────────────────────────────────┤
+│                                             │
+│  [Queue] → dequeue() → [Order Copy]         │
+│                            ↓                │
+│                    sortDriversByDistance()  │
+│                            ↓                │
+│                    Loop Drivers             │
+│                            ↓                │
+│                    hitungJarak()            │
+│                            ↓                │
+│                    Assign to Driver         │
+│                            ↓                │
+│                    pushStack()              │
+│                            ↓                │
+│                    [Stack History]          │
+│                            ↓                │
+│                    delete order             │
+│                                             │
+└─────────────────────────────────────────────┘
 ```
 
-| Baris | Kode                                       | Penjelasan                                        |
-| ----- | ------------------------------------------ | ------------------------------------------------- |
-| 2-5   | `if (orderQueueHead == NULL)`              | Validasi: ada order?                              |
-| 7-10  | `if (driverCount == 0)`                    | Validasi: ada driver?                             |
-| 12    | `Order* order = dequeueOrder();`           | Ambil order pertama dari queue                    |
-| 15-16 | `Location restaurant... sortDrivers...`    | Sort driver berdasarkan jarak ke restaurant       |
-| 20    | `for (int i = 0; i < driverCount; i++)`    | Loop semua driver                                 |
-| 21    | `if (drivers[i].status == "available")`    | Cari yang available                               |
-| 23-25 | `hitungJarak... cout...`                   | Hitung dan tampilkan jarak + estimasi             |
-| 27-28 | `drivers[i].status = "busy"`               | Update status                                     |
-| 31-34 | `pushStack... drivers[i].posisiSaatIni...` | Simulasi selesai: push ke history, update posisi  |
-| 41-43 | `if (!assigned)... enqueueOrder...`        | Jika tidak ada driver available, kembalikan order |
+### 4. **Lihat History (Menu 5)**
+
+**Alur:**
+
+```
+Stack → tampilkanHistory() → Display (tanpa hapus)
+```
+
+**Metode:** Traversal Stack (LIFO order)
+
+### 5. **Hapus Order dari History (Menu 8)**
+
+**Alur:**
+
+```
+Stack → popStack() → Display → Delete
+```
+
+**Proses:**
+
+1. Pop order terakhir dari stack
+2. Tampilkan detail order
+3. Delete order untuk free memory
 
 ---
 
-# BAGIAN 12: BUAT ORDER BARU
+## 💾 MEMORY MANAGEMENT
 
-## 12.1 buatOrderBaru()
+Program ini mengimplementasikan **proper memory management** untuk mencegah memory leak.
+
+### Prinsip Dasar
+
+```
+Setiap `new` HARUS ada `delete` yang sesuai
+```
+
+### Implementasi
+
+#### 1. **Dequeue Order**
 
 ```cpp
-void buatOrderBaru() {
-    Order newOrder;
-    newOrder.orderID = nextOrderID++;
+Order* dequeueOrder() {
+    Order* temp = orderQueueHead;           // Simpan node asli
+    orderQueueHead = orderQueueHead->next;  // Geser head
 
-    cout << "\n===== BUAT ORDER BARU =====" << endl;
-    cout << "Nama Customer: ";
-    cin.ignore();
-    getline(cin, newOrder.customerName);
+    Order* order = new Order;               // Alokasi untuk copy
+    *order = *temp;                         // Copy data
+    order->next = NULL;                     // Putus link
 
-    cout << "Alamat: ";
-    getline(cin, newOrder.lokasi.alamat);
+    delete temp;                            // Hapus node asli ✅
 
-    cout << "Koordinat X: ";
-    cin >> newOrder.lokasi.x;
-    cout << "Koordinat Y: ";
-    cin >> newOrder.lokasi.y;
-
-    newOrder.items = NULL;
-    newOrder.status = "pending";
-    newOrder.timestamp = nextOrderID * 5;  // simulasi waktu
-
-    cout << "\nTambah Items (ketik 'selesai' untuk berhenti):" << endl;
-    while (true) {
-        string namaItem;
-        cout << "Nama item: ";
-        cin.ignore();
-        getline(cin, namaItem);
-
-        if (namaItem == "selesai") break;
-
-        int harga;
-        cout << "Harga: Rp";
-        cin >> harga;
-
-        tambahItem(newOrder.items, namaItem, harga);
-    }
-
-    newOrder.totalHarga = hitungTotalHarga(newOrder.items);
-    newOrder.next = NULL;
-
-    enqueueOrder(newOrder);
+    return order;                           // Return copy
 }
 ```
 
-| Baris | Kode                                                         | Penjelasan                                   |
-| ----- | ------------------------------------------------------------ | -------------------------------------------- |
-| 2     | `Order newOrder;`                                            | Buat struct Order di stack (local variable)  |
-| 3     | `newOrder.orderID = nextOrderID++;`                          | Assign ID lalu increment (post-increment)    |
-| 7     | `cin.ignore();`                                              | Hapus newline dari buffer sebelum `getline`  |
-| 8     | `getline(cin, newOrder.customerName);`                       | Baca string dengan spasi                     |
-| 18-20 | `newOrder.items = NULL;... status = "pending";`              | Inisialisasi default                         |
-| 23-35 | `while (true) { ... if (namaItem == "selesai") break; ... }` | Loop input items sampai user ketik "selesai" |
-| 37    | `newOrder.totalHarga = hitungTotalHarga(newOrder.items);`    | Hitung total dari linked list items          |
-| 40    | `enqueueOrder(newOrder);`                                    | Masukkan ke queue                            |
+**Kenapa perlu copy?**
 
----
+- Node asli di queue akan dihapus
+- Jika return pointer ke node asli → dangling pointer
+- Copy memastikan data tetap valid setelah node dihapus
 
-# BAGIAN 13: FUNGSI MAIN
-
-## 13.1 main()
+#### 2. **Pop Stack**
 
 ```cpp
-int main() {
-    int pilihan;
+Order* popStack() {
+    StackNode* temp = completedOrdersStack;
+    completedOrdersStack = completedOrdersStack->next;
 
-    // Inisialisasi beberapa driver
-    tambahDriver("Budi", 1.0, 1.0);
-    tambahDriver("Siti", 2.5, 3.0);
-    tambahDriver("Andi", 4.0, 2.0);
+    Order* order = new Order;
+    *order = temp->orderData;
 
-    cout << "========================================" << endl;
-    cout << "  FOOD DELIVERY ROUTE OPTIMIZER" << endl;
-    cout << "  Sistem Manajemen Delivery Makanan" << endl;
-    cout << "========================================" << endl;
+    delete temp;  // Hapus node asli ✅
 
-    while (true) {
-        cout << "\n===== MENU UTAMA =====" << endl;
-        cout << "1. Buat Order Baru" << endl;
-        cout << "2. Lihat Pending Orders" << endl;
-        cout << "3. Assign Order ke Driver" << endl;
-        cout << "4. Lihat Daftar Driver" << endl;
-        cout << "5. Lihat History Completed Orders" << endl;
-        cout << "6. Cari Order by ID" << endl;
-        cout << "7. Tambah Driver Baru" << endl;
-        cout << "0. Keluar" << endl;
-        cout << "\nPilihan: ";
-        cin >> pilihan;
-
-        switch (pilihan) {
-            case 1:
-                buatOrderBaru();
-                break;
-            case 2:
-                tampilkanPendingOrders();
-                break;
-            case 3:
-                assignOrderToDriver();
-                break;
-            case 4:
-                tampilkanDrivers();
-                break;
-            case 5:
-                tampilkanHistory();
-                break;
-            case 6: {
-                int id;
-                cout << "Masukkan Order ID: ";
-                cin >> id;
-                Order* found = searchOrderByID(id);
-                if (found) {
-                    cout << "\n✓ Order ditemukan!" << endl;
-                    cout << "Order #" << found->orderID << " - " << found->customerName << endl;
-                    cout << "Status: " << found->status << endl;
-                } else {
-                    cout << "✗ Order tidak ditemukan!" << endl;
-                }
-                break;
-            }
-            case 7: {
-                string nama;
-                float x, y;
-                cout << "Nama driver: ";
-                cin.ignore();
-                getline(cin, nama);
-                cout << "Posisi X: ";
-                cin >> x;
-                cout << "Posisi Y: ";
-                cin >> y;
-                tambahDriver(nama, x, y);
-                break;
-            }
-            case 0:
-                cout << "\nTerima kasih telah menggunakan sistem!" << endl;
-                return 0;
-            default:
-                cout << "Pilihan tidak valid!" << endl;
-        }
-    }
-
-    return 0;
+    return order;
 }
 ```
 
-**Struktur Switch-Case:**
+#### 3. **Assign Order**
 
-| Case    | Fungsi yang Dipanggil      | Deskripsi                   |
-| ------- | -------------------------- | --------------------------- |
-| 1       | `buatOrderBaru()`          | Input order baru ke queue   |
-| 2       | `tampilkanPendingOrders()` | Tampilkan isi queue         |
-| 3       | `assignOrderToDriver()`    | Proses order ke driver      |
-| 4       | `tampilkanDrivers()`       | Tampilkan array driver      |
-| 5       | `tampilkanHistory()`       | Tampilkan stack history     |
-| 6       | `searchOrderByID()`        | Linear search order         |
-| 7       | `tambahDriver()`           | Tambah driver baru ke array |
-| 0       | `return 0`                 | Keluar program              |
-| default | -                          | Pesan error                 |
+```cpp
+void assignOrderToDriver() {
+    Order* order = dequeueOrder();  // Dapat copy
 
----
+    // ... proses assignment ...
 
-# BAGIAN 14: RINGKASAN STRUKTUR DATA
+    pushStack(*order);  // Copy data ke stack
 
-## 14.1 Tabel Penggunaan Struktur Data
+    delete order;  // Hapus copy ✅
+}
+```
 
-| Struktur Data   | Digunakan Untuk                                             | Operasi Utama              |
-| --------------- | ----------------------------------------------------------- | -------------------------- |
-| **Array**       | Menyimpan driver (`drivers[5]`)                             | Insert, Traverse, Sort     |
-| **Struct**      | Mendefinisikan Order, Driver, MenuItem, Location, StackNode | Data encapsulation         |
-| **Pointer**     | Menghubungkan node dalam linked list dan stack              | Reference, dereference     |
-| **Linked List** | Queue order pending, Daftar item per order                  | Enqueue, Dequeue, Traverse |
-| **Stack**       | Riwayat order selesai                                       | Push, Pop, Traverse        |
-| **Queue**       | Antrian order (FIFO)                                        | Enqueue, Dequeue           |
-
-## 14.2 Tabel Algoritma
-
-| Algoritma              | Fungsi                    | Kompleksitas |
-| ---------------------- | ------------------------- | ------------ |
-| **Bubble Sort**        | `sortDriversByDistance()` | O(n²)        |
-| **Linear Search**      | `searchOrderByID()`       | O(n)         |
-| **Euclidean Distance** | `hitungJarak()`           | O(1)         |
-
----
-
-# BAGIAN 15: DIAGRAM ALUR PROGRAM
+**Alur Memory:**
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                      PROGRAM START                        │
-└──────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-               ┌──────────────────────────┐
-               │ Inisialisasi 3 Driver    │
-               │ (Budi, Siti, Andi)       │
-               └──────────────────────────┘
-                              │
-                              ▼
-               ┌──────────────────────────┐
-               │    TAMPILKAN MENU        │◄────────────────┐
-               └──────────────────────────┘                 │
-                              │                             │
-                              ▼                             │
-                    ┌─────────────┐                         │
-                    │ Input Menu  │                         │
-                    └─────────────┘                         │
-                              │                             │
-         ┌────────────────────┼────────────────────┐        │
-         ▼                    ▼                    ▼        │
-    ┌─────────┐          ┌─────────┐          ┌─────────┐   │
-    │ Menu 1  │          │ Menu 3  │          │ Menu 0  │   │
-    │  Order  │          │ Assign  │          │  Exit   │   │
-    └─────────┘          └─────────┘          └─────────┘   │
-         │                    │                    │        │
-         ▼                    ▼                    ▼        │
-    ┌─────────┐          ┌─────────┐          ┌─────────┐   │
-    │Enqueue  │          │Dequeue  │          │ END     │   │
-    │to Queue │          │+ Sort   │          │PROGRAM  │   │
-    └─────────┘          │+ Push   │          └─────────┘   │
-         │               │to Stack │                        │
-         │               └─────────┘                        │
-         │                    │                             │
-         └────────────────────┴─────────────────────────────┘
+1. dequeueOrder() → Buat copy, delete node queue
+2. assignOrderToDriver() → Proses copy
+3. pushStack() → Copy data ke stack node
+4. delete order → Hapus copy yang sudah tidak perlu
+```
+
+### Konsekuensi Tanpa Memory Management
+
+**Tanpa `delete`:**
+
+```cpp
+Order* order = dequeueOrder();  // Alokasi memory
+pushStack(*order);              // Copy ke stack
+// Tidak ada delete order → MEMORY LEAK!
+```
+
+**Dampak:**
+
+- Memory tidak dikembalikan ke sistem
+- Setiap order yang diproses = memory leak
+- Program bisa crash jika dijalankan lama
+- Memory usage terus meningkat
+
+**Dengan `delete`:**
+
+```cpp
+Order* order = dequeueOrder();
+pushStack(*order);
+delete order;  // ✅ Memory dikembalikan
 ```
 
 ---
 
-**© 2026 - Dokumentasi Program Food Delivery Route Optimizer**
+## 📈 KOMPLEKSITAS ALGORITMA
+
+| Operasi                  | Struktur Data | Kompleksitas Waktu | Kompleksitas Ruang |
+| ------------------------ | ------------- | ------------------ | ------------------ |
+| tambahItem()             | Linked List   | O(n)               | O(1)               |
+| tampilkanItems()         | Linked List   | O(n)               | O(1)               |
+| hitungTotalHarga()       | Linked List   | O(n)               | O(1)               |
+| enqueueOrder()           | Queue         | O(n)               | O(1)               |
+| dequeueOrder()           | Queue         | O(1)               | O(1)               |
+| tampilkanPendingOrders() | Queue         | O(n)               | O(1)               |
+| pushStack()              | Stack         | O(1)               | O(1)               |
+| popStack()               | Stack         | O(1)               | O(1)               |
+| tampilkanHistory()       | Stack         | O(n)               | O(1)               |
+| tambahDriver()           | Array         | O(1)               | O(1)               |
+| tampilkanDrivers()       | Array         | O(n)               | O(1)               |
+| sortDriversByDistance()  | Array         | O(n²)              | O(1)               |
+| searchOrderByID()        | Linked List   | O(n)               | O(1)               |
+| hitungJarak()            | -             | O(1)               | O(1)               |
+| assignOrderToDriver()    | Multiple      | O(n²)              | O(1)               |
+
+**Keterangan:**
+
+- n = jumlah elemen dalam struktur data
+- Kompleksitas `assignOrderToDriver()` adalah O(n²) karena ada sorting di dalamnya
+
+---
+
+## 🎓 KONSEP PENTING YANG DIIMPLEMENTASIKAN
+
+### 1. **Abstract Data Type (ADT)**
+
+- Queue: FIFO operations (enqueue, dequeue)
+- Stack: LIFO operations (push, pop)
+- Linked List: Dynamic data structure
+
+### 2. **Dynamic Memory Allocation**
+
+```cpp
+MenuItem* newItem = new MenuItem;  // Alokasi
+delete temp;                       // Dealokasi
+```
+
+### 3. **Pointer Manipulation**
+
+```cpp
+MenuItem*& head  // Reference to pointer
+temp->next       // Pointer dereferencing
+```
+
+### 4. **Greedy Algorithm**
+
+- Selalu pilih driver terdekat untuk efisiensi
+
+### 5. **Data Encapsulation**
+
+- Struct menggabungkan data terkait dalam satu unit
+
+### 6. **Traversal Techniques**
+
+- Iterative traversal untuk linked list
+- Loop-based traversal untuk array
+
+---
+
+## 🔧 FITUR PROGRAM
+
+### Menu Utama
+
+```
+1. Buat Order Baru           → Input + Enqueue
+2. Lihat Pending Orders      → Queue Traversal
+3. Assign Order ke Driver    → Dequeue + Sort + Push
+4. Lihat Daftar Driver       → Array Traversal
+5. Lihat History             → Stack Traversal
+6. Cari Order by ID          → Linear Search
+7. Tambah Driver Baru        → Array Insert
+8. Hapus Order dari History  → Pop Stack
+0. Keluar                    → Exit
+```
+
+### Fitur Unggulan
+
+✅ **Dynamic Order Items** - Linked List memungkinkan jumlah item tidak terbatas
+✅ **FIFO Queue** - Order diproses sesuai urutan kedatangan
+✅ **LIFO History** - Order terakhir selesai muncul paling atas
+✅ **Smart Driver Selection** - Sorting untuk pilih driver terdekat
+✅ **Distance Calculation** - Euclidean distance untuk akurasi
+✅ **Memory Safe** - Proper allocation dan deallocation
+✅ **Search Functionality** - Cari order berdasarkan ID
+
+---
+
+## 📝 KESIMPULAN
+
+Program **Food Delivery Route Optimizer** adalah implementasi komprehensif dari berbagai struktur data dan algoritma:
+
+### Struktur Data:
+
+1. **Struct** - Model data terstruktur
+2. **Linked List** - Data dinamis (items, queue, stack)
+3. **Queue** - Antrian order (FIFO)
+4. **Stack** - Riwayat order (LIFO)
+5. **Array** - Penyimpanan driver (static)
+
+### Algoritma:
+
+1. **Bubble Sort** - Urutkan driver by jarak
+2. **Linear Search** - Cari order by ID
+3. **Euclidean Distance** - Hitung jarak koordinat
+4. **Greedy Approach** - Pilih driver terdekat
+
+### Konsep Lanjutan:
+
+1. **Memory Management** - Proper new/delete
+2. **Pointer Manipulation** - Reference & dereferencing
+3. **Dynamic Allocation** - Runtime memory allocation
+4. **Data Flow** - Queue → Process → Stack
+
+Program ini mendemonstrasikan bagaimana berbagai struktur data bekerja bersama untuk menyelesaikan masalah nyata dalam sistem pengiriman makanan.
+
+---
+
+**Dibuat untuk:** Final Project Struktur Data
+**Bahasa:** C++
+**Compiler:** g++ (C++11 atau lebih baru)
