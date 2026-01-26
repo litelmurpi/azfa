@@ -49,25 +49,6 @@ Dokumen ini berisi panduan untuk mempresentasikan pitch deck TANAMI Smart Urban 
 
 ---
 
-## Slide 3: Target User
-
-**Durasi:** 45 detik | 🎯 **KRITERIA: Potensi Pasar**
-
-**Target pengguna:**
-
-- 🏠 **Urban Farmers** - Berkebun di rumah/apartemen dengan lahan terbatas
-- 👨‍💻 **Pekerja Sibuk** - Hobi berkebun tapi tidak punya waktu monitoring rutin
-- 🌿 **Pemula Berkebun** - Ingin berkebun tapi takut tanaman mati karena kurang pengalaman
-- 🏢 **IoT Enthusiast** - Ingin integrasi dengan ekosistem smart home
-
-**Data Pasar:**
-
-> Tren urban farming meningkat signifikan pasca pandemi, terutama di kalangan milenial dan gen-Z yang tinggal di apartemen/perumahan. Indonesia memiliki potensi pasar urban farming yang besar dengan populasi perkotaan lebih dari 56%.
-
-**Script:**
-
-> "Target pengguna kami adalah urban farmers, pekerja sibuk yang hobi berkebun, pemula yang takut tanamannya mati, dan IoT enthusiast. Pasar ini sangat besar - tren urban farming meningkat pesat pasca pandemi, terutama di kalangan anak muda yang tinggal di perkotaan dengan lahan terbatas. Indonesia dengan populasi urban lebih dari 56% adalah pasar yang sangat potensial."
-
 ---
 
 ## Slide 4: Solusi
