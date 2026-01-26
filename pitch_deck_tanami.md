@@ -78,16 +78,16 @@ Dokumen ini berisi panduan untuk mempresentasikan pitch deck TANAMI Smart Urban 
 
 1. **Real-Time Monitoring** - Pantau kelembaban tanah, suhu, dan kelembaban udara dari smartphone secara kuantitatif
 2. **Auto-Watering** - Penyiraman otomatis dengan logika closed-loop berdasarkan threshold (default 40%)
-3. **Plug & Play** - Zero-configuration dengan protokol mDNS, koneksi otomatis dalam < 2 detik
+3. **Plug & Play** - Zero-configuration dengan protokol NSD (Network Service Discovery), koneksi otomatis dalam < 2 detik
 
 **Inovasi yang Ditekankan:**
 
-- Penggunaan **Network Service Discovery (mDNS)** - perangkat broadcast identitas `_http._tcp`, aplikasi mendeteksi otomatis
+- Penggunaan **Network Service Discovery (NSD)** - perangkat broadcast identitas `_http._tcp`, aplikasi mendeteksi otomatis via NsdManager
 - **Edge Computing** - logika kontrol tertanam di firmware ESP32, berjalan otonom tanpa koneksi internet
 
 **Script:**
 
-> "TANAMI menawarkan 3 solusi utama. Pertama, monitoring real-time dengan data kuantitatif - pengguna bisa melihat persentase kelembaban tanah, suhu dalam Celcius, dan kelembaban udara langsung dari HP. Kedua, auto-watering dengan logika closed-loop - pompa menyala otomatis saat tanah kering di bawah 40% dan mati saat sudah cukup lembab. Ketiga, plug and play - tidak perlu konfigurasi IP manual, cukup nyalakan alat dan buka aplikasi, dalam 2 detik langsung terhubung menggunakan teknologi mDNS."
+> "TANAMI menawarkan 3 solusi utama. Pertama, monitoring real-time dengan data kuantitatif - pengguna bisa melihat persentase kelembaban tanah, suhu dalam Celcius, dan kelembaban udara langsung dari HP. Kedua, auto-watering dengan logika closed-loop - pompa menyala otomatis saat tanah kering di bawah 40% dan mati saat sudah cukup lembab. Ketiga, plug and play - tidak perlu konfigurasi IP manual, cukup nyalakan alat dan buka aplikasi, dalam 2 detik langsung terhubung menggunakan teknologi NSD."
 
 ---
 
@@ -223,7 +223,7 @@ Dokumen ini berisi panduan untuk mempresentasikan pitch deck TANAMI Smart Urban 
 **ESP32 Firmware (Arduino C++):**
 
 - Web Server ringan menyediakan REST API endpoint
-- mDNS broadcasting dengan nama `tanami-esp32`
+- NSD broadcasting dengan nama `tanami-esp32`
 - Logika threshold embedded untuk closed-loop control
 
 **Format Data JSON Response:**
@@ -300,9 +300,9 @@ Dokumen ini berisi panduan untuk mempresentasikan pitch deck TANAMI Smart Urban 
 
 **Durasi:** 1 menit | 🎯 **KRITERIA: Inovasi Produk & Fungsionalitas**
 
-**Teknologi mDNS (Multicast DNS):**
+**Teknologi NSD (Network Service Discovery):**
 
-Menggunakan protokol mDNS, perangkat menyiarkan identitas dan kapabilitasnya, memungkinkan aplikasi menemukan alamat IP dan Port secara dinamis - menghilangkan kebutuhan konfigurasi alamat statis.
+Menggunakan protokol NSD, perangkat menyiarkan identitas dan kapabilitasnya melalui NsdManager di Android. Aplikasi dapat menemukan alamat IP dan Port secara dinamis - menghilangkan kebutuhan konfigurasi alamat statis.
 
 **Prosedur Koneksi Otomatis:**
 
@@ -333,7 +333,7 @@ Menggunakan protokol mDNS, perangkat menyiarkan identitas dan kapabilitasnya, me
 
 **Script:**
 
-> "Yang sangat inovatif dari TANAMI adalah zero-configuration. Menggunakan protokol mDNS, ESP32 menyiarkan identitasnya di jaringan WiFi. Aplikasi Android menjalankan listener di background. Saat terdeteksi, sistem resolve IP dan Port otomatis - semua dalam waktu kurang dari 2 detik. Pengguna tidak perlu tahu IP address, tidak perlu setting manual. Ini mengeliminasi human error total dan membuat sistem benar-benar plug and play - cocok untuk pengguna non-teknis."
+> "Yang sangat inovatif dari TANAMI adalah zero-configuration. Menggunakan protokol NSD, ESP32 menyiarkan identitasnya di jaringan WiFi. Aplikasi Android dengan NsdManager menjalankan listener di background. Saat terdeteksi, sistem resolve IP dan Port otomatis - semua dalam waktu kurang dari 2 detik. Pengguna tidak perlu tahu IP address, tidak perlu setting manual. Ini mengeliminasi human error total dan membuat sistem benar-benar plug and play - cocok untuk pengguna non-teknis."
 
 ---
 
