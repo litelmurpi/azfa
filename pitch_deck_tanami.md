@@ -159,15 +159,15 @@ Dokumen ini berisi panduan untuk mempresentasikan pitch deck TANAMI Smart Urban 
 
 **Komponen Hardware Detail:**
 
-| Komponen                      | Fungsi                         | Spesifikasi Teknis                                                                                                  |
-| ----------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| **ESP32**                     | Mikrokontroler utama (Brain)   | WiFi 2.4GHz + Bluetooth 4.2, Web Server, mDNS, GPIO berlimpah, konsumsi daya rendah, penerus ESP8266 dari Espressif |
-| **Capacitive Soil Moisture**  | Sensor kelembaban tanah        | Output analog 600-2900, tanpa korosi (kapasitif), semakin basah nilai semakin rendah                                |
-| **DHT11**                     | Sensor suhu & kelembaban udara | Digital single-wire protocol, termistor + sensor kapasitif, biaya rendah                                            |
-| **Relay 5VDC 2-Channel**      | Saklar elektronik              | Optocoupler isolasi, indikator LED, terminal sekrup, kontrol beban AC/DC lebih tinggi                               |
-| **Pompa Air Mini 3V**         | Aktuator penyiraman            | Sentrifugal, ukuran mini (sejempol), impeller kecepatan tinggi                                                      |
-| **Baterai 9V / USB 5V Micro** | Sumber daya                    | Portabel (baterai) atau adaptor 5V via Micro-USB                                                                    |
-| **Breadboard + Kabel Jumper** | Prototyping                    | Solderless, koneksi mudah male/female                                                                               |
+| Komponen                      | Fungsi                         | Spesifikasi Teknis                                                                                                         |
+| ----------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| **ESP32**                     | Mikrokontroler utama (Brain)   | WiFi 2.4GHz + Bluetooth 4.2, Web Server, NSD support, GPIO berlimpah, konsumsi daya rendah, penerus ESP8266 dari Espressif |
+| **Capacitive Soil Moisture**  | Sensor kelembaban tanah        | Output analog 600-2900, tanpa korosi (kapasitif), semakin basah nilai semakin rendah                                       |
+| **DHT11**                     | Sensor suhu & kelembaban udara | Digital single-wire protocol, termistor + sensor kapasitif, biaya rendah                                                   |
+| **Relay 5VDC 2-Channel**      | Saklar elektronik              | Optocoupler isolasi, indikator LED, terminal sekrup, kontrol beban AC/DC lebih tinggi                                      |
+| **Pompa Air Mini 3V**         | Aktuator penyiraman            | Sentrifugal, ukuran mini (sejempol), impeller kecepatan tinggi                                                             |
+| **Baterai 9V / USB 5V Micro** | Sumber daya                    | Portabel (baterai) atau adaptor 5V via Micro-USB                                                                           |
+| **Breadboard + Kabel Jumper** | Prototyping                    | Solderless, koneksi mudah male/female                                                                                      |
 
 **Diagram Koneksi Hardware:**
 
@@ -213,12 +213,12 @@ Dokumen ini berisi panduan untuk mempresentasikan pitch deck TANAMI Smart Urban 
 
 **Android App (Kotlin Native):**
 
-| Komponen       | Fungsi                                        |
-| -------------- | --------------------------------------------- |
-| **NsdManager** | Auto-discovery perangkat via mDNS di jaringan |
-| **Retrofit**   | HTTP client untuk komunikasi REST API         |
-| **SQLite**     | Cache konfigurasi jaringan lokal              |
-| **TanamCare**  | Integrasi AI untuk diagnosis penyakit         |
+| Komponen       | Fungsi                                             |
+| -------------- | -------------------------------------------------- |
+| **NsdManager** | Auto-discovery perangkat via NSD di jaringan lokal |
+| **Retrofit**   | HTTP client untuk komunikasi REST API              |
+| **SQLite**     | Cache konfigurasi jaringan lokal                   |
+| **TanamCare**  | Integrasi AI untuk diagnosis penyakit              |
 
 **ESP32 Firmware (Arduino C++):**
 
@@ -324,7 +324,7 @@ Menggunakan protokol NSD, perangkat menyiarkan identitas dan kapabilitasnya mela
 
 **Perbandingan dengan Metode Konvensional:**
 
-| Aspek      | TANAMI (mDNS)                   | Metode Konvensional            |
+| Aspek      | TANAMI (NSD)                    | Metode Konvensional            |
 | ---------- | ------------------------------- | ------------------------------ |
 | Setup      | Nyalakan → Buka app → Terhubung | Input IP manual → Test → Retry |
 | Waktu      | < 2 detik                       | 2-5 menit                      |
@@ -417,7 +417,7 @@ Tanah basah            →   > 70%           →   🔵 BASAH
 | #   | USP                                  | Detail                                                  |
 | --- | ------------------------------------ | ------------------------------------------------------- |
 | 🇮🇩  | **Dirancang untuk Indonesia**        | Konteks urban farming lokal, bahasa Indonesia           |
-| 🔌  | **Zero-Configuration (mDNS)**        | Plug & Play < 2 detik, eliminasi human error            |
+| 🔌  | **Zero-Configuration (NSD)**         | Plug & Play < 2 detik, eliminasi human error            |
 | 🤖  | **AI-Powered Diagnosis (TanamCare)** | Foto daun → Diagnosis penyakit + Rekomendasi penanganan |
 | 💰  | **Affordable & DIY-Friendly**        | < Rp 200.000, bisa dirakit sendiri, edukasi IoT         |
 
@@ -512,7 +512,7 @@ Revenue Streams:
 
 | Pertanyaan                               | Jawaban Singkat                                                                       |
 | ---------------------------------------- | ------------------------------------------------------------------------------------- |
-| Kenapa tidak pakai Bluetooth?            | WiFi lebih reliable untuk data real-time, range lebih luas, mDNS untuk auto-discovery |
+| Kenapa tidak pakai Bluetooth?            | WiFi lebih reliable untuk data real-time, range lebih luas, NSD untuk auto-discovery  |
 | Bagaimana jika WiFi mati?                | Edge computing - logika tetap jalan di ESP32, data di-cache untuk sync saat reconnect |
 | Apakah bisa untuk outdoor/cuaca ekstrem? | Perlu enclosure waterproof (pengembangan selanjutnya)                                 |
 | Bagaimana dengan sensor NPK?             | Jalur sudah disiapkan, tinggal integrasi di Phase 3                                   |
