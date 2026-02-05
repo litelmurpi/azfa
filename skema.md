@@ -1,5 +1,3 @@
-# AWASMATA - Database Design Document
-
 ## Entity Relationship Diagram (ERD) Specification
 
 ---
