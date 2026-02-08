@@ -1,5 +1,3 @@
-Tentu, ini adalah kurikulum lengkap kegiatan TPA Ramadan selama 1 bulan dalam format **Markdown** yang rapi. Kamu bisa langsung menyalinnya ke dalam file `README.md` di proyek Laravel kamu atau mencetaknya sebagai panduan panitia.
-
 ---
 
 # **Kurikulum TPA Ramadan: "Generasi SITARA"**
