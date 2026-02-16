@@ -1,5 +1,3 @@
----
-
 ## **Naskah Kultum: Menulis Ulang Rima di Subuh Pertama**
 
 ### **1. Pembukaan (Muqaddimah)**
