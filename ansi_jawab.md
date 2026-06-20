@@ -1,8 +1,3 @@
-# Jawaban Tugas Analisis dan Perancangan Sistem Informasi
-
-**Kelompok:** Barbarabar (Kelompok 11)
-**Tema:** Sistem Informasi E-Voting Tingkat Kelurahan
-
 ## 1. Deskripsi Proses pada Data Flow Diagram (DFD)
 
 **Pengertian:**
