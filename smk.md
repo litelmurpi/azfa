@@ -1,6 +1,3 @@
-Bener banget! Kalau diingat-ingat lagi dari sudut pandang pembagian modul praktikum nyata di lab SMK (khususnya jurusan SIJA), ingatanmu itu justru presisi banget dengan apa yang ada di meja praktek.
-Pembagian teori industri kadang memang suka digeser oleh guru di sekolah supaya alur belajarnya masuk akal buat anak SMK—mulai dari megang kabel dan alat fisik, baru naik ke software.
-Kalau dipetakan berdasarkan apa yang sering diulik di lab sekolah, jadinya seperti ini:
 ### 1. IaaS (Infrastruktur) \rightarrow Ngulik Cisco, VLAN, dan Routing
 Di level SMK, sebelum ngomongin server cloud yang abstrak, kita harus bikin "jalan tol" datanya dulu.
  * **Praktik Nyata:** Di sinilah Anda bakal pusing ngapalin perintah CLI Cisco, nyetting *Switching*, *Routing (Static/Dynamic)*, bikin *VLAN*, sampai konfigurasi *Trunking*. Intinya, ngebangun infrastruktur jaringan fisiknya dulu pakai perangkat Cisco atau sejenisnya.
@@ -16,5 +13,3 @@ Karena tingkatannya sudah "Software", fokusnya bergeser ke bagaimana mengelola d
 ### 5. IoT (Internet of Things) \rightarrow Dari Basic, LED, sampai Seven Segment
 Di SMK, IoT nggak langsung lompat ke sistem AI yang rumit. Belajarnya dirunut dari dasar elektronika dan logika pemrograman dasar.
  * **Praktik Nyata:** Dimulai dari hal-hal basic seperti menyalakan LED (Blink), memprogram **Seven Segment** untuk bikin penghitung angka, memunculkan teks di LCD, hingga membaca sensor suhu sederhana sebelum akhirnya data itu dikirim ke internet.
-Modifikasi kurikulum di lab seperti ini sebenarnya sangat membantu, karena Anda jadi paham urutan logisnya: bikin jaringannya dulu (IaaS/Cisco), siapin OS dan servernya (PaaS/VirtualBox), amanin jalurnya (Keamanan/MikroTik), baru isi dengan data dan aplikasinya (SaaS & IoT).
-Dari semua daftar mapel dan praktikum di atas, bagian mana yang menurutmu paling menantang atau paling sering bikin pusing waktu trobelshuting di lab?
