@@ -67,16 +67,17 @@
 * Interactive Venn diagram animates on screen glowing with Electric Blue highlights.
 
 **[Script]**
-> "Hello everyone! Welcome to our IT Job Exploration presentation. Today, our team is excited to unpack one of the most vital and fast-growing roles in the tech industry: **The Product Manager**, or **PM**.
->
-> Have you ever wondered why apps like Spotify, Netflix, or Instagram constantly release features that feel almost mind-reading? Behind every intuitive digital product is a Product Manager working behind the scenes.
-> 
-> As you can see on the interactive diagram on your screen, a Product Manager operates right at the sweet spot where **Business, User Experience (UX), and Technology** intersect. 
-> 
-> A common question is: *How is a Product Manager different from a Project Manager?* 
-> Think of it this way: A *Project Manager* focuses on **'How & When'**—budgeting, timelines, and execution. But a *Product Manager* owns the **'What & Why'**—identifying the exact user problems to solve and driving the strategic product vision. 
-> 
-> In short, PMs are the champion and voice of the customer inside tech organizations!"
+> "Good day to our honorable lecturer and hello to all our classmates! Welcome to our IT Job Exploration video presentation for SI013 Bahasa Inggris II at Universitas Amikom Yogyakarta.
+
+Before we begin, allow us to introduce our team members: Member 1, Member 2, and Member 3.
+
+Today, our group is excited to explore one of the most dynamic leadership roles in the tech industry: The Product Manager (PM).
+
+Have you ever wondered why apps like Spotify, Netflix, or Instagram constantly drop feature updates that feel almost mind-reading? Behind every intuitive digital product is a Product Manager working behind the scenes.
+
+As you can see on Slide 1, a Product Manager operates right at the sweet spot where Business ROI, User Experience (UX), and Technology intersect.
+
+A common question is: How is a PM different from a Project Manager? Think of it this way: A Project Manager focuses on 'How & When'—schedules and delivery. But a Product Manager owns the 'What & Why'—identifying real user pain points and driving strategic product vision.""
 
 ---
 
