@@ -1,158 +1,175 @@
-# 🎙️ Naskah Teleprompter Microteaching Asprak
+# 🎙️ Naskah Microteaching: Seleksi Calon Asisten Praktikum (Asprak)
 
-> **Mata Kuliah** : Pemrograman Web Lanjut (SI118) — Semester 3  
-> **Topik** : Arsitektur MVC & Request Lifecycle pada Framework Laravel  
-> **Total Durasi** : 10 – 12 Menit (Total 7 Slide)  
-> **Target Audiens** : Praktikan S1 Sistem Informasi / Dosen Penguji Seleksi Asprak  
+> **Mata Kuliah** : Pemrograman Web Lanjut (SI118) — S1 Sistem Informasi Universitas Amikom Yogyakarta  
+> **Topik Simulasi** : Pertemuan 16 — Arsitektur MVC & Request Lifecycle pada Laravel  
+> **Format** : Microteaching Seleksi Calon Asisten Praktikum di Depan Dosen Penguji / Asisten Senior  
+> **Target Durasi** : 10 – 12 Menit (Total 7 Slide)  
 > **Presenter** : [Nama Kamu]  
 
 ---
 
-## 📌 Slide 1: Cover Presentasi
+## 🎯 Poin Penilaian Penguji yang Ditonjolkan:
+1. **Penyampaian Konsep Teknis**: Mampu menyederhanakan materi abstrak (*MVC Architecture*) menjadi sangat mudah dipahami mahasiswa.
+2. **Keterampilan Live Coding**: Menunjukkan penguasaan sintaks Laravel (Routing, Artisan CLI, Blade) secara tenang, terstruktur, dan minim typo.
+3. **Komunikasi Pedagogik**: Suara jelas, interaktif, intonasi mantap, dan gestur seorang pendamping praktikum yang ramah serta solutif.
+
+---
+
+## 📌 Slide 1: Pembukaan & Greeting Profesional
 * **Estimasi Waktu**: `00:00 - 01:00` (1 Menit)
-* **Visual Cue**: Berdiri tegak, tersenyum ramah, tatap audiens/penguji, gunakan suara lantang dan ramah.
+* **Visual Cue / Sikap**: Berdiri tegap, kontak mata langsung ke para dosen penguji / asisten senior. Sampaikan salam pembuka dengan percaya diri dan antusias.
 
 ### 🗣️ Naskah Bicara:
-> "Halo semuanya! Selamat pagi/siang rekan-rekan praktikan Pemrograman Web Lanjut. Semoga rekan-rekan semua dalam kondisi prima dan bersemangat untuk praktikum hari ini.
+> "Selamat pagi/siang Bapak/Ibu dosen penguji serta rekan-rekan asisten praktikum.
 >
-> Perkenalkan, nama saya **[Nama Kamu]**, yang akan memandu sesi praktikum kita pada Pertemuan ke-16 ini.
+> Perkenalkan, nama saya **[Nama Kamu]**. Pada kesempatan microteaching seleksi calon asisten praktikum hari ini, saya akan membawakan simulasi pengajaran untuk mata kuliah **Pemrograman Web Lanjut (SI118)** pada **Pertemuan ke-16**.
 >
-> Hari ini kita akan masuk ke gerbang pemrograman web modern dengan topik yang sangat fundamental dan krusial, yaitu: **'Arsitektur MVC pada Framework Laravel: Dari Spageti Menuju Kode yang Terstruktur'**.
+> Topik yang akan saya simulasikan adalah: **'Arsitektur MVC pada Framework Laravel: Transformasi dari Spaghetti Code Menuju Kode Terstruktur'**.
 >
-> Mari kita mulai!"
+> Izin untuk memulai simulasi pengajaran ke praktikan, Bapak/Ibu."
 
 ---
 
-## 📌 Slide 2: The Problem: Spaghetti Code
+## 📌 Slide 2: Identifikasi Masalah (Spaghetti Code di PHP Native)
 * **Estimasi Waktu**: `01:00 - 02:30` (1.5 Menit)
-* **Visual Cue**: Tekan `NEXT` (panah kanan), pasang ekspresi penasaran/reflektif, lemparkan pertanyaan pemantik ke audiens.
+* **Visual Cue / Sikap**: Tekan `NEXT`, pasang ekspresi interaktif seolah berbicara langsung ke mahasiswa di laboratorium. Gunakan pertanyaan pemantik (*hook*).
 
 ### 🗣️ Naskah Bicara:
-> "Sebelum kita kenalan dengan Laravel, mari kita refleksi sejenak dari materi pertemuan 1 sampai 13 kemarin saat kita membuat aplikasi PHP Native.
+> "Halo rekan-rekan praktikan! Sebelum kita masuk ke framework Laravel, mari kita ingat kembali tugas-tugas di pertemuan 1 sampai 13 saat kita membuat web dengan PHP Native.
 >
-> Siapa di antara rekan-rekan yang pernah membuat file `index.php` atau `crud.php` yang isinya sampai 500 baris?
+> Siapa di antara kalian yang file `index.php` atau `crud.php`-nya pernah tembus sampai 300 hingga 500 baris?
 >
-> Di baris atas ada koneksi database dan query SQL `SELECT` / `INSERT`.  
-> Di baris tengah ada logika perulangan dan `if-else`.  
-> Lalu di bagian bawah bertaburan tag HTML `<table>`, `<div>`, dan styling CSS.
+> Di baris paling atas ada koneksi database dan query SQL `SELECT` atau `INSERT`.  
+> Di tengahnya ada logika perulangan `while`, `foreach`, dan `if-else`.  
+> Lalu di bagian bawah bertaburan tag HTML `<table>`, form input, dan script CSS.
 >
-> Kode seperti ini di dunia industri biasa disebut **'Spaghetti Code'**.  
-> Kelihatannya memang berjalan, tapi bayangkan jika aplikasi kita berkembang menjadi puluhan fitur, atau kita harus bekerja secara tim:
-> 1. **Hard to Maintain**: Kode sangat sulit dibaca dan dirawat.
-> 2. Memperbaiki satu baris bug di SQL bisa tanpa sengaja merusak tampilan layout HTML.
-> 3. Rawan konflik (*conflict*) saat berkolaborasi via Git.
+> Di industri software, pola seperti ini disebut **Spaghetti Code**.  
+> Kelihatannya jalan, tapi bayangkan saat website kita bertambah besar atau dikerjakan bersama tim:
+> 1. **Sulit di-maintain**: Mengubah 1 baris SQL bisa tanpa sengaja merusak layout tampilan web.
+> 2. **Rawan Konflik Tim**: Saat bekerja dengan Git, file yang sama di-edit bersamaan akan menyebabkan banyak *merge conflict*.
+> 3. **Testing Sulit**: Kita tidak bisa menguji fungsi logika secara terpisah.
 >
-> Lalu, bagaimana programmer profesional menyelesaikan masalah ini?"
+> Nah, di sinilah Laravel hadir dengan solusi arsitektur standar industri!"
 
 ---
 
-## 📌 Slide 3: The Solution: Konsep Arsitektur MVC
+## 📌 Slide 3: Konsep Solusi — MVC (Separation of Concerns)
 * **Estimasi Waktu**: `02:30 - 04:00` (1.5 Menit)
-* **Visual Cue**: Tunjukkan gestur tangan membagi tiga bagian secara teratur (Kiri = Data, Kanan = UI, Tengah = Logika).
+* **Visual Cue / Sikap**: Gunakan gestur tangan membagi 3 area (Kiri = Data, Kanan = UI, Tengah = Logika). Tekankan istilah *Separation of Concerns*.
 
 ### 🗣️ Naskah Bicara:
-> "Jawabannya adalah memisahkan tanggung jawab kode menggunakan pola arsitektur bernama **MVC: Model, View, dan Controller**.
+> "Laravel menerapkan pola arsitektur **MVC: Model, View, dan Controller**.
 >
-> Konsep dasarnya sederhana: **'Separation of Concerns'** — jangan campur aduk urusan berbeda dalam satu wadah.
+> Prinsip utamanya adalah **Separation of Concerns** — setiap bagian kode hanya memiliki satu tanggung jawab spesifik:
 >
-> Mari kita bagi peran ketiganya:
+> 1. **MODEL (Pengelola Data)**  
+>    Model bertugas berkomunikasi dengan database, mengeksekusi query, dan memvalidasi data. Model tidak tahu dan tidak peduli bagaimana data tersebut akan ditampilkan di layar.
 >
-> 1. **MODEL (Data)**  
->    Model bertugas mengurus **DATA**. Semua komunikasi ke database, query, dan aturan validasi data ada di sini. Model tidak peduli bagaimana data akan ditampilkan di layar.
+> 2. **VIEW (Tampilan Antarmuka)**  
+>    View bertugas menampilkan antarmuka visual kepada user. Di Laravel, kita menggunakan template engine **Blade** (HTML & CSS). View hanya menampilkan data yang diterimanya.
 >
-> 2. **VIEW (Tampilan)**  
->    View bertugas mengurus **TAMPILAN antarmuka** (User Interface). Di Laravel, kita memakai **Blade Template** (HTML & CSS). View hanya bertugas menampilkan apa yang diberikan kepadanya.
+> 3. **CONTROLLER (Otak Logika)**  
+>    Controller adalah jembatan logikanya. Dia yang menerima request dari user, meminta data ke Model, lalu mengoper data tersebut ke View untuk dirender.
 >
-> 3. **CONTROLLER (Logika)**  
->    Controller adalah **OTAK atau jembatan logikanya**. Dia yang menerima permintaan dari pengguna, meminta data ke Model, lalu menyuruh View untuk menampilkan hasilnya.
->
-> Agar semakin terbayang, mari kita lihat analogi di dunia nyata pada slide berikutnya!"
+> Agar rekan-rekan lebih mudah mengingat alurnya, mari kita gunakan analogi sebuah Restoran di slide berikutnya."
 
 ---
 
-## 📌 Slide 4: Analogi Operasional Restoran
+## 📌 Slide 4: Analogi Mental Model — Operasional Restoran
 * **Estimasi Waktu**: `04:00 - 05:30` (1.5 Menit)
-* **Visual Cue**: Arahkan pandangan ke kartu-kartu analogi. Gunakan intonasi bercerita (*storytelling*) yang hidup dan ekspresif.
+* **Visual Cue / Sikap**: Sampaikan analogi dengan intonasi bercerita (*storytelling*) yang terstruktur. Tunjukkan bahwa kamu mampu menjelaskan konsep rumit secara komunikatif.
 
 ### 🗣️ Naskah Bicara:
-> "Bayangkan arsitektur MVC seperti operasional sebuah Restoran:
+> "Mari kita bayangkan MVC seperti sistem kerja di Restoran:
 >
-> 1. **Pelanggan (User / Browser)**:  
+> 1. **User / Browser = Pelanggan**:  
 >    Pelanggan datang membuka browser dan ingin memesan menu tertentu.
-> 2. **Kasir / Daftar Menu (Route di `routes/web.php`)**:  
->    Menerima URL yang diakses. *'Oh, pelanggan ini mengakses URL `/mahasiswa`!'*. Route langsung memanggil pelayan yang bertugas.
-> 3. **Pelayan / Waiter (Controller)**:  
->    Pelayan mencatat pesanan. Pelayan tidak memasak sendiri di meja kasir, melainkan langsung menuju dapur.
-> 4. **Chef & Gudang Bahan (Model & Database)**:  
->    Chef di dapur mengambil bahan dari kulkas (Database) dan memasak datanya. Setelah matang, Chef menyerahkan data tersebut kembali ke Pelayan (Controller).
-> 5. **Plating & Penyajian (View)**:  
->    Pelayan membawa makanan yang sudah matang ke meja plating (View) agar dihias cantik di atas piring, lalu disajikan langsung ke meja Pelanggan.
+> 2. **Route (`routes/web.php`) = Kasir & Buku Menu**:  
+>    Kasir melihat apa yang diminta pelanggan. *'Oh, user mengakses alamat `/mahasiswa`!'*. Kasir langsung memanggil pelayan yang bertugas.
+> 3. **Controller = Pelayan (Waiter)**:  
+>    Pelayan mencatat pesanan. Pelayan tidak memasak sendiri di kasir, melainkan langsung berkoordinasi ke dapur.
+> 4. **Model & Database = Chef & Kulkas Bahan Makanan**:  
+>    Chef mengambil bahan dari database dan memasak datanya. Setelah matang, data diserahkan kembali ke Pelayan (Controller).
+> 5. **View (Blade) = Plating Sajian di Piring**:  
+>    Pelayan membawa makanan ke meja plating agar dihias rapi di piring, kemudian disajikan ke meja pelanggan di layar browser.
 >
-> Rapi sekali, bukan? Koki fokus masak di dapur, pelayan fokus koordinasi, dan penyaji fokus pada keindahan piring."
+> Sangat rapi, bukan? Setiap komponen fokus pada tugasnya masing-masing."
 
 ---
 
 ## 📌 Slide 5: Request Lifecycle pada Laravel
 * **Estimasi Waktu**: `05:30 - 07:00` (1.5 Menit)
-* **Visual Cue**: Tunjukkan diagram alur horizontal (Step 1 s/d 5). Tekankan arah panah eksekusinya.
+* **Visual Cue / Sikap**: Tunjukkan alur horizontal 5 langkah di layar. Jelaskan bagaimana route memanggil method di controller.
 
 ### 🗣️ Naskah Bicara:
-> "Nah, jika diterjemahkan ke dalam struktur project Laravel, alurnya berjalan seperti ini:
+> "Secara teknis di framework Laravel, siklus request berjalan sebagai berikut:
 >
-> 1. **Browser** mengirimkan HTTP Request (misal: `GET /mahasiswa`).
-> 2. Request diterima oleh file **`routes/web.php`**.
-> 3. Route meneruskannya ke method di **Controller**, misalnya: `MahasiswaController@index`.
-> 4. Controller meminta data ke **Model** (misal: data dummy atau query database).
-> 5. Model mengambil data dari **Database MySQL**, lalu mengembalikannya ke Controller.
-> 6. Controller melempar data tersebut ke **View** menggunakan fungsi `return view('mahasiswa', compact('mahasiswa'))`.
-> 7. **View** (file Blade) merender HTML akhir dan mengirimkannya kembali sebagai **HTTP Response** ke layar browser user.
+> 1. **Browser** mengirimkan HTTP Request (misalnya `GET /mahasiswa`).
+> 2. **`routes/web.php`** menangkap endpoint tersebut dan mengarahkannya ke Controller: `MahasiswaController@index`.
+> 3. **Controller** mengeksekusi method `index()`, lalu meminta data ke **Model** (misalnya data dummy atau query database).
+> 4. **Model** mengembalikan data mahasiswa ke Controller.
+> 5. Controller mengirimkan data tersebut ke **View** dengan perintah:  
+>    `return view('mahasiswa', compact('mahasiswa'));`
+> 6. File Blade merender HTML dan mengirimkannya kembali sebagai **HTTP Response** ke browser.
 >
-> Sekarang, mari kita buktikan alur ini lewat Live Coding 5 menit!"
+> Sekarang, mari kita buktikan alur ini secara nyata melalui Live Coding 3 langkah!"
 
 ---
 
-## 📌 Slide 6: Live Coding Demo (3 Langkah Praktis)
+## 📌 Slide 6: Demonstrasi Live Coding (3 Langkah Praktis)
 * **Estimasi Waktu**: `07:00 - 10:30` (3.5 Menit)
-* **Visual Cue**: Switch layar ke VS Code & Terminal. Tekan `Ctrl + +` untuk memperbesar font editor. Jelaskan baris kode dengan tenang.
+* **Visual Cue / Sikap**: Pindah layar ke VS Code & Terminal. Bicara santai namun pasti saat mengetik kode. Tunjukkan penguasaan perintah CLI dan debugging.
 
 ### 🗣️ Naskah Bicara:
-> "Kita akan mempraktikkan alur MVC ini hanya dalam 3 langkah sederhana:
+> "Kita implementasikan alur ini dalam 3 langkah singkat:
 >
-> **LANGKAH 1: DEFINISI ROUTE**  
-> Kita buka file `routes/web.php`.  
-> Kita tulis:  
+> **Langkah 1: Menentukan Route di `routes/web.php`**  
+> Kita daftarkan endpoint URL-nya:  
 > `Route::get('/mahasiswa', [MahasiswaController::class, 'index']);`  
-> *Artinya: jika user membuka `/mahasiswa`, serahkan tugas ke MahasiswaController pada fungsi `index`.*
+> *Artinya: saat ada request ke `/mahasiswa`, Laravel akan memanggil method `index` di `MahasiswaController`.*
 >
-> **LANGKAH 2: MEMBUAT CONTROLLER DENGAN ARTISAN**  
-> Buka terminal, kita manfaatkan CLI Laravel:  
+> **Langkah 2: Membuat Controller Menggunakan Artisan CLI**  
+> Buka terminal, kita manfaatkan generator Laravel:  
 > `php artisan make:controller MahasiswaController`  
-> Kita buka filenya di `app/Http/Controllers/MahasiswaController.php`.  
-> Kita buat fungsi `public function index()`.  
-> Di dalamnya, kita siapkan data array mahasiswa, lalu kita kirim ke view dengan:  
-> `return view('mahasiswa', compact('mahasiswa'));`
+> Buka filenya di `app/Http/Controllers/MahasiswaController.php`. Kita buat method:  
+> ```php
+> public function index() {
+>     $mahasiswa = [
+>         ['nim' => '23.11.0001', 'nama' => 'Budi Santoso', 'jurusan' => 'Sistem Informasi'],
+>         ['nim' => '23.11.0002', 'nama' => 'Siti Aminah', 'jurusan' => 'Sistem Informasi']
+>     ];
+>     return view('mahasiswa', compact('mahasiswa'));
+> }
+> ```
 >
-> **LANGKAH 3: MEMBUAT VIEW BLADE**  
-> Kita buat file baru di `resources/views/mahasiswa.blade.php`.  
-> Kita buat tabel HTML dan lakukan perulangan data dengan sintaks Blade: `@forelse`.
+> **Langkah 3: Membuat Template Tampilan di `resources/views/mahasiswa.blade.php`**  
+> Kita siapkan tabel dan tampilkan data menggunakan sintaks Blade `@forelse`:  
+> ```html
+> @forelse ($mahasiswa as $mhs)
+>     <tr>
+>         <td>{{ $mhs['nim'] }}</td>
+>         <td>{{ $mhs['nama'] }}</td>
+>     </tr>
+> @empty
+>     <tr><td>Data kosong.</td></tr>
+> @endforelse
+> ```
 >
-> Mari kita uji di browser: jalankan `php artisan serve` lalu buka `http://localhost:8000/mahasiswa`.  
-> Dan lihat... datanya tampil sempurna melalui alur Route &rarr; Controller &rarr; View!"
+> Kita jalankan `php artisan serve` dan buka di browser: datanya langsung tampil rapi melewati alur Route &rarr; Controller &rarr; View!"
 
 ---
 
-## 📌 Slide 7: Kesimpulan & Langkah Selanjutnya
+## 📌 Slide 7: Kesimpulan, Next Steps & Penutup
 * **Estimasi Waktu**: `10:30 - 12:00` (1.5 Menit)
-* **Visual Cue**: Berikan kesimpulan dengan nada mantap, buka sesi pertanyaan praktikan, lalu tutup dengan salam.
+* **Visual Cue / Sikap**: Berikan ringkasan materi, transisi ke materi minggu depan, lalu tutup simulasi dengan kembali menghadap dosen penguji secara formal.
 
 ### 🗣️ Naskah Bicara:
-> "Tiga poin utama yang kita pelajari hari ini:
-> 1. **MVC** memisahkan data (Model), antarmuka (View), dan alur logika (Controller).
-> 2. Kode menjadi bersih, modular, scalable, dan siap untuk standar kerja tim industri.
-> 3. **Laravel** memudahkan implementasi MVC melalui Routing yang elegan, Artisan CLI, dan Blade engine.
+> "Sebagai kesimpulan dari materi hari ini:
+> 1. **MVC Architecture** membantu kita memisahkan data, antarmuka, dan logika bisnis agar kode bersih, modular, dan terstruktur.
+> 2. **Pemisahan Peran** ini memudahkan kerja tim dan meminimalisir potensi bug.
+> 3. Pada pertemuan berikutnya (Pertemuan 18–22), kita akan melengkapi siklus ini dengan menghubungkan **Model ke Database MySQL secara otomatis menggunakan Migration dan Eloquent ORM**.
 >
-> Pada pertemuan berikutnya (Pertemuan 18–22), kita akan menghubungkan Model ini ke **Database MySQL nyata menggunakan Migration dan Eloquent ORM**.
+> Silakan rekan-rekan praktikan mulai mencoba latihan pada modul praktikum.
 >
-> Silakan rekan-rekan mulai mencoba modul praktikum di komputer masing-masing. Jika ada kendala atau pesan error, jangan ragu untuk angkat tangan.
->
-> Terima kasih atas perhatian dan antusiasmenya, selamat berpraktik, dan wassalamu'alaikum wr. wb. / Selamat siang!"
+> Demikian simulasi microteaching yang dapat saya sampaikan. Terima kasih banyak atas perhatian dan waktu dari Bapak/Ibu dosen penguji serta rekan-rekan asisten. Saya siap menerima masukan, evaluasi, ataupun sesi tanya jawab.  
+> Wassalamu'alaikum warahmatullahi wabarakatuh / Selamat pagi/siang."
