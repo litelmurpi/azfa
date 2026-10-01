@@ -7,26 +7,6 @@
 
 ---
 
-## Pembagian Peran & Alur Pembicara
-
-- **Pembicara 1 (Yudistira Azfa Dani Wibowo):**
-  - Slide 1: Judul & Anggota Kelompok
-  - Slide 2: Agenda Pembahasan
-  - Slide 3: 1. Bentuk Rekomendasi di Google News
-  - Slide 4: 2. Pendekatan Algoritma (Hybrid)
-- **Pembicara 2 (Nayottama Ivan Rajendra):**
-  - Slide 5: 3. Data yang Menggerakkan Rekomendasi
-  - Slide 6: 4. Tujuan Sistem Rekomendasi
-- **Pembicara 3 (Husnan Hidayat):**
-  - Slide 7: 5. Analisis Pengalaman Pengguna (UX)
-  - Slide 8: 6. Aspek Etika & Dampak Sosial (Bagian 1)
-- **Pembicara 4 (Viando Naufa Mikatama):**
-  - Slide 9: 6. Aspek Etika & Dampak Sosial (Bagian 2)
-  - Slide 10: 7. Kesimpulan
-  - Slide 11: Penutup & Tanya Jawab
-
----
-
 *(Peran: Pembuka, Pengantar Agenda, Bentuk Rekomendasi, dan Algoritma)*
 
 ### [Slide 1: Judul & Anggota Kelompok]
