@@ -2,7 +2,7 @@
 ## Sistem Manajemen Basis Data Lanjut (SI167)
 ### Program Studi Sistem Informasi - Universitas AMIKOM Yogyakarta
 
-Panduan ini disusun sebagai rujukan teknis dan instruksional bagi Asisten Praktikum (Asprak) dalam mendampingi mahasiswa pada dua pertemuan awal semester.
+Panduan ini disusun sebagai rujukan teknis dan instruksional bagi Asisten Praktikum (Asprak) dalam mendampingi mahasiswa pada dua pertemuan awal semester, termasuk materi jembatan (*bridging*) dari mata kuliah prasyarat Sistem Manajemen Basis Data (SI131).
 
 ---
 
@@ -15,11 +15,80 @@ Panduan ini disusun sebagai rujukan teknis dan instruksional bagi Asisten Prakti
 
 ---
 
-## 2. Materi Pertemuan 1: Konsep & Siklus Hidup Basis Data
+## 2. Materi Bridging: Transisi SMBD (SI131) ke SMBD Lanjut (SI167)
+
+Bagian ini digunakan oleh Asprak sebagai pengantar pembuka semester, terutama jika dosen pengampu berhalangan hadir pada sesi awal. Tujuannya adalah menyelaraskan ekspektasi mahasiswa dan menyambungkan konsep semester lalu ke tingkat lanjut.
+
+### 2.1. Matriks Komparasi Kompetensi
+
+| Aspek | SMBD Dasar (Semester 2 - SI131) | SMBD Lanjut (Semester 3 - SI167) |
+| :--- | :--- | :--- |
+| **Peran Database** | Penyimpan data pasif (*Passive Data Store*). | Pemroses logika aktif (*Programmable Database Engine*). |
+| **Perancangan** | Fokus pada pembuatan ERD dan aturan Normalisasi (1NF, 2NF, 3NF). | Transformasi skema logis ke fisik, penentuan batasan integritas ketat, dan optimasi struktur. |
+| **Query Data** | Query statis: DDL dasar, DML dasar, serta Join tabel standar. | Query dinamis: Subquery kompleks, *Indexed Views*, dan *Control Flow Functions* (`IF`, `CASE`). |
+| **Logika Bisnis** | Diletakkan seluruhnya di sisi aplikasi backend (PHP, Java, JavaScript). | Logika kritis dipindahkan ke database engine melalui *Stored Procedures*, *Functions*, dan *Triggers*. |
+| **Administrasi** | Menggunakan user `root` lokal tanpa konfigurasi hak akses atau backup. | Manajemen hak akses multi-user (`GRANT`/`REVOKE`), backup (`mysqldump`), pemulihan data, dan pemeliharaan rutin. |
+| **Model Evaluasi** | Latihan rutin dan pembuatan ERD individu. | 1 Studi Kasus Penjualan (P1-P7) dilanjutkan Project Database Kelompok (P9-P14) dan Responsi (P15). |
+
+---
+
+### 2.2. Panduan Pengantar Kelas oleh Asprak (Opening Pitch)
+
+Jika dosen berhalangan hadir, Asprak dapat membuka kelas dengan poin-poin terstruktur berikut:
+
+1. **Pengantar Identitas Mata Kuliah**:
+   "Selamat datang di praktikum Sistem Manajemen Basis Data Lanjut. Di semester lalu pada mata kuliah SMBD, kita fokus membuat rancangan tabel, normalisasi data, serta menjalankan perintah SQL dasar seperti SELECT dan JOIN. Di mata kuliah SMBD Lanjut ini, kita akan memperlakukan database bukan sekadar tempat menampung tabel, melainkan mesin pintar yang mampu menjalankan kalkulasi otomatis, memvalidasi aturan bisnis secara mandiri, dan mengamankan data pengguna."
+
+2. **Peta Jalan Satu Semester**:
+   * **Pertemuan 1–7**: Praktikum intensif dengan 1 studi kasus bersama (Sistem Penjualan Retail). Mahasiswa mempelajari Views, Stored Functions, Stored Procedures, Triggers, hingga manajemen user dan backup.
+   * **Pertemuan 8**: Ujian Tengah Semester (UTS Teori).
+   * **Pertemuan 9–14**: Pengerjaan Project Database Kelompok (maksimal 4 orang) menerapkan seluruh teknik ke studi kasus nyata.
+   * **Pertemuan 15–16**: Responsi (Live Coding Praktikum) dan evaluasi akhir project (UAS).
+
+3. **Komponen Penilaian**:
+   Jelaskan kepada mahasiswa bahwa nilai praktikum memiliki porsi besar:
+   * Tugas Latihan Praktikum (Pertemuan 2–7): 30%
+   * Unjuk Kerja / Presentasi Project (Pertemuan 9–14): 35%
+   * Responsi Praktikum (Pertemuan 15): 8%
+   * Kuis & Ujian Teori (UTS & UAS): 27%
+
+---
+
+### 2.3. Studi Kasus Nyata: Mengapa Logika Dipindah ke Database?
+
+Berikan contoh nyata berikut untuk menjelaskan urgensi materi SMBD Lanjut:
+
+* **Skenario di SMBD Dasar**:
+  Ketika terjadi transaksi penjualan, aplikasi backend harus menjalankan dua query terpisah:
+  1. `INSERT INTO detail_penjualan ...`
+  2. `UPDATE barang SET stok = stok - qty ...`
+  * *Risiko*: Jika server backend mati atau koneksi terputus tepat setelah query pertama berjalan, data penjualan tercatat tetapi stok barang tidak terpotong. Data menjadi korup dan tidak konsisten.
+
+* **Solusi di SMBD Lanjut**:
+  Kita membuat **Trigger** atau **Stored Procedure** di level database:
+  * Begitu query `INSERT` pada tabel `detail_penjualan` berhasil, MySQL secara otomatis dan atomik memotong stok pada tabel `barang`.
+  * Aplikasi backend cukup mengirim satu kali perintah, dan integritas data 100% dijamin oleh database server.
+
+---
+
+### 2.4. Uji Diagnostik Mandiri Mahasiswa (5 Menit Refresher)
+
+Lontarkan 3 pertanyaan cepat ini ke mahasiswa untuk mengukur kesiapan mereka:
+
+1. **Uji Foreign Key**: "Apa yang terjadi jika kita menghapus data di tabel kategori, padahal ID kategori tersebut masih dipakai oleh 10 barang di tabel barang dengan aturan `ON DELETE RESTRICT`?"
+   * *Jawaban benar*: MySQL akan menolak penghapusan dan melempar *foreign key constraint error*.
+2. **Uji Normalisasi 3NF**: "Kapan sebuah tabel dikatakan memenuhi syarat Bentuk Normal Ketiga (3NF)?"
+   * *Jawaban benar*: Ketika sudah memenuhi 2NF dan tidak memiliki ketergantungan transitif (*transitive dependency*), artinya semua atribut non-kunci hanya bergantung pada Primary Key.
+3. **Uji Relasi JOIN**: "Apa perbedaan hasil antara `INNER JOIN` dan `LEFT JOIN`?"
+   * *Jawaban benar*: `INNER JOIN` hanya menampilkan baris yang memiliki kecocokan di kedua tabel. `LEFT JOIN` menampilkan seluruh baris dari tabel kiri, meskipun tidak memiliki pasangan di tabel kanan (kolom kanan diisi `NULL`).
+
+---
+
+## 3. Materi Pertemuan 1: Konsep & Siklus Hidup Basis Data
 
 Pertemuan pertama berfokus pada fondasi teoritis dan pemahaman alur rekayasa basis data sebelum mahasiswa mulai menulis kode SQL di laboratorium.
 
-### 2.1. Klasifikasi Basis Data
+### 3.1. Klasifikasi Basis Data
 
 Asprak perlu menjelaskan alasan pemilihan tipe basis data berdasarkan karakteristik beban kerja data:
 
@@ -40,7 +109,7 @@ Asprak perlu menjelaskan alasan pemilihan tipe basis data berdasarkan karakteris
 
 ---
 
-### 2.2. Arsitektur Aplikasi Basis Data
+### 3.2. Arsitektur Aplikasi Basis Data
 
 1. **Single-Tier**: Aplikasi UI, logika pemrosesan, dan database berada di satu komputer lokal yang sama. Contoh: Microsoft Access, SQLite lokal.
 2. **Two-Tier (Client-Server)**: Aplikasi antarmuka langsung menghubungi database server melalui jaringan lokal via driver ODBC/JDBC.
@@ -51,7 +120,7 @@ Asprak perlu menjelaskan alasan pemilihan tipe basis data berdasarkan karakteris
 
 ---
 
-### 2.3. Siklus Hidup Aplikasi Basis Data (Database Life Cycle - DBLC)
+### 3.3. Siklus Hidup Aplikasi Basis Data (Database Life Cycle - DBLC)
 
 DBLC mencakup seluruh siklus hidup sistem basis data dari tahap perencanaan hingga pemeliharaan berkala:
 
@@ -72,7 +141,7 @@ DBLC mencakup seluruh siklus hidup sistem basis data dari tahap perencanaan hing
 
 ---
 
-### 2.4. Panduan Evaluasi Kuis & Tanya Jawab Pertemuan 1
+### 3.4. Panduan Evaluasi Kuis & Tanya Jawab Pertemuan 1
 
 Pertanyaan yang dapat diajukan kepada mahasiswa di akhir sesi teori:
 
@@ -83,11 +152,11 @@ Pertanyaan yang dapat diajukan kepada mahasiswa di akhir sesi teori:
 
 ---
 
-## 3. Materi Pertemuan 2: Implementasi DDL, DML, & Constraints
+## 4. Materi Pertemuan 2: Implementasi DDL, DML, & Constraints
 
 Pertemuan kedua adalah implementasi praktikum di laboratorium komputer. Seluruh latihan menggunakan **Studi Kasus Penjualan Retail**.
 
-### 3.1. Skema Relasi Database Penjualan
+### 4.1. Skema Relasi Database Penjualan
 
 Studi kasus terdiri dari 5 entitas yang saling berelasi:
 * `kategori`: Menyimpan kelompok kategori barang.
@@ -98,7 +167,7 @@ Studi kasus terdiri dari 5 entitas yang saling berelasi:
 
 ---
 
-### 3.2. Script DDL Lengkap (Data Definition Language)
+### 4.2. Script DDL Lengkap (Data Definition Language)
 
 Asprak perlu mengarahkan mahasiswa untuk menulis script SQL secara berurutan dan terstruktur:
 
@@ -177,7 +246,7 @@ CREATE TABLE IF NOT EXISTS detail_penjualan (
 
 ---
 
-### 3.3. Penjelasan Aturan Referential Integrity
+### 4.3. Penjelasan Aturan Referential Integrity
 
 Jelaskan 4 opsi relasi `FOREIGN KEY` dengan logika operasional berikut:
 
@@ -194,7 +263,7 @@ Jelaskan 4 opsi relasi `FOREIGN KEY` dengan logika operasional berikut:
 
 ---
 
-### 3.4. Modifikasi Struktur Tabel (ALTER TABLE)
+### 4.4. Modifikasi Struktur Tabel (ALTER TABLE)
 
 Ajarkan mahasiswa cara memodifikasi tabel tanpa menghapus database:
 
@@ -223,7 +292,7 @@ ALTER TABLE barang DROP COLUMN barcode;
 
 ---
 
-### 3.5. Operasi DML (Data Manipulation Language)
+### 4.5. Operasi DML (Data Manipulation Language)
 
 #### A. Penyisipan Data (INSERT)
 ```sql
@@ -269,7 +338,7 @@ DELETE FROM pelanggan WHERE id_pelanggan = 3;
 
 ---
 
-### 3.6. Query Pengambilan Data (SELECT Sederhana)
+### 4.6. Query Pengambilan Data (SELECT Sederhana)
 
 ```sql
 -- 1. Filter numerik dan teks
@@ -297,7 +366,7 @@ LIMIT 3;
 
 ---
 
-## 4. Panduan Troubleshooting Laboratorium untuk Asprak
+## 5. Panduan Troubleshooting Laboratorium untuk Asprak
 
 Tabel kendala teknis yang umum dihadapi mahasiswa di laboratorium:
 
@@ -312,7 +381,7 @@ Tabel kendala teknis yang umum dihadapi mahasiswa di laboratorium:
 
 ---
 
-## 5. Checklist Kesiapan Asisten Praktikum
+## 6. Checklist Kesiapan Asisten Praktikum
 
 Sebelum kelas dimulai, pastikan kamu telah memeriksa hal berikut:
 
@@ -320,3 +389,4 @@ Sebelum kelas dimulai, pastikan kamu telah memeriksa hal berikut:
 * [ ] Menyiapkan skenario studi kasus alternatif untuk mahasiswa yang menyelesaikan latihan lebih cepat.
 * [ ] Memastikan pemahaman konsep DBLC dan normalisasi sudah matang untuk memfasilitasi sesi tanya jawab.
 * [ ] Memeriksa ketersediaan koneksi LMS / pengumpulan tugas di NetSupport lab.
+* [ ] Membawa materi bridging untuk membuka kelas jika dosen pengampu berhalangan hadir.
